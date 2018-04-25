@@ -3,7 +3,6 @@ import _objectWithoutProperties from "@babel/runtime/helpers/objectWithoutProper
 import React from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
-import { connect } from 'react-redux';
 import { breakPoints } from './defaults';
 
 var MediaQueryWrapper = function MediaQueryWrapper() {
@@ -35,14 +34,7 @@ MediaQueryWrapper.defaultProps = {
   children: null,
   component: 'div'
 };
-export var responsiveWrapper = function responsiveWrapper() {
-  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return connect(function (state) {
-    return _extends({
-      fakeWidth: state.responsive.fakeWidth
-    }, props);
-  })(MediaQueryWrapper);
-};
+export var responsiveWrapper = MediaQueryWrapper;
 export var XsScreen = responsiveWrapper({
   maxWidth: breakPoints.sm - 1
 });
