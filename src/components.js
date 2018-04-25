@@ -2,7 +2,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import MediaQuery from 'react-responsive'
-import { connect } from 'react-redux'
 import { breakPoints } from './defaults'
 
 export const MediaQueryWrapper = (props = {}) => {
@@ -32,8 +31,7 @@ MediaQueryWrapper.defaultProps = {
   component: 'div',
 }
 
-export const responsiveWrapper = (props = {}) =>
-  connect(state => ({ fakeWidth: state.responsive.fakeWidth, ...props }))(MediaQueryWrapper)
+export const responsiveWrapper = MediaQueryWrapper;
 
 export const XsScreen = responsiveWrapper({ maxWidth: breakPoints.sm - 1 })
 export const SmScreen = responsiveWrapper({ query: `(min-width: ${breakPoints.sm}px) and (max-width: ${breakPoints.md - 1}px)` })
