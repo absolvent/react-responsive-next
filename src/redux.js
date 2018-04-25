@@ -6,7 +6,7 @@ export const setMobileDetect = ({
   phone, tablet, mobile, desktop,
 } = {}) => ({
   type: SET_MOBILE_DETECT, phone, tablet, mobile, desktop,
-})
+});
 
 // TODO - allow users to pass this in - we have to share it with our components
 // too though so maybe we need a getter/setter on our entire class?
@@ -20,7 +20,7 @@ export const initialState = {
   mobile: false,
   desktop: false,
   fakeWidth: defaultSize,
-}
+};
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -28,9 +28,9 @@ export const reducer = (state = initialState, action) => {
     // use initialState as the default values
     const {
       mobile, tablet, phone, desktop,
-    } = { ...initialState, ...action }
+    } = { ...initialState, ...action };
 
-    let fakeWidth
+    let fakeWidth;
 
     if (mobile) {
       if (phone) {
@@ -55,4 +55,4 @@ export const reducer = (state = initialState, action) => {
   default:
     return state
   }
-}
+};

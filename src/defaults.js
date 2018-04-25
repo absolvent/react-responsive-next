@@ -6,7 +6,7 @@ export const breakPoints = {
   sm: 768,
   md: 992,
   lg: 1200,
-}
+};
 
 export const defaultSizes = {
   // the phone value covers portrait and landscape - there's no way to tell the
@@ -21,4 +21,4 @@ export const defaultSizes = {
   // this comes from bootstrap lg which we use this as our default desktop size
   // (even though technically > 991 is desktop most seem to fall here).
   desktop: breakPoints.lg,
-}
+};

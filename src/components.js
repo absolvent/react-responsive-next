@@ -9,8 +9,8 @@ export const MediaQueryWrapper = (props = {}) => {
   // eslint-disable-next-line no-unused-vars
   const {
     dispatch, fakeWidth, children, ...other
-  } = props
-  const values = { deviceWidth: fakeWidth, width: fakeWidth }
+  } = props;
+  const values = { deviceWidth: MediaQuery.fakeWidth, width: MediaQuery.fakeWidth };
   return (
     <MediaQuery {...other} {...{ values }} >
       {children}
@@ -18,12 +18,14 @@ export const MediaQueryWrapper = (props = {}) => {
   )
 }
 
+MediaQuery.fakeWidth = null;
+
 MediaQueryWrapper.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   component: PropTypes.oneOfType([PropTypes.node, PropTypes.func, PropTypes.string]),
   dispatch: PropTypes.func.isRequired,
   fakeWidth: PropTypes.number.isRequired,
-}
+};
 
 MediaQueryWrapper.defaultProps = {
   children: null,
