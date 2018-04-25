@@ -1,7 +1,7 @@
 {
-  "name": "react-responsive-redux",
-  "version": "0.5.0",
-  "description": "redux integration for react-responsive",
+  "name": "react-responsive-next",
+  "version": "0.1.0",
+  "description": "next integration for react-responsive",
   "main": "lib/index.js",
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
@@ -9,9 +9,9 @@
     "lib/*",
     "es/*"
   ],
-  "homepage": "https://github.com/modosc/react-responsive-redux",
+  "homepage": "https://github.com/pawelsamsel/react-responsive-next",
   "bugs": {
-    "url": "https://github.com/modosc/react-responsive-redux/issues"
+    "url": "https://github.com/pawelsamsel/react-responsive-next/issues"
   },
   "keywords": [
     "bootstrap",
@@ -83,7 +83,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/modosc/react-responsive-redux.git"
+    "url": "https://github.com/pawelsamsel/react-responsive-next.git"
   },
   "peerDependencies": {
     "prop-types": "^15.5.10",
