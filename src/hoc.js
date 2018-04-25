@@ -1,7 +1,9 @@
-const React = require('react');
 import { MediaQueryWrapper } from './components';
 
-export const hoc = (WrappedComponent, options) => class ReactResponsiveNextHoc extends React.Component {
+const React = require('react');
+
+
+export const hoc = WrappedComponent => class ReactResponsiveNextHoc extends React.Component {
 
   static async getInitialProps(args = {}) {
     let newProps = {
@@ -9,9 +11,9 @@ export const hoc = (WrappedComponent, options) => class ReactResponsiveNextHoc e
     };
 
     if (args && args.req) {
-      //newProps.env = getVariables(args, options);
+      //  newProps.env = getVariables(args, options);
     } else {
-      //newProps.env = getVariables({}, options);
+      //  newProps.env = getVariables({}, options);
     }
     const newArgs = {
       ...args,
@@ -26,7 +28,7 @@ export const hoc = (WrappedComponent, options) => class ReactResponsiveNextHoc e
     MediaQueryWrapper.fakeWidth = 800;
     return newProps;
   }
-  //constructor && componentWillMount: in case getInitialProps isn't called
+  // constructor && componentWillMount: in case getInitialProps isn't called
   /* istanbul ignore next */
   constructor(props) {
     super(props);
@@ -47,6 +49,6 @@ export const hoc = (WrappedComponent, options) => class ReactResponsiveNextHoc e
   // }
   /* istanbul ignore next */
   render() {
-    return <WrappedComponent  {...this.state} {...this.props} />;
+    return <WrappedComponent {...this.state} {...this.props} />;
   }
 };

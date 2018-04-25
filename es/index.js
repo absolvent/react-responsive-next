@@ -2,4 +2,5 @@ export { defaultSize, initialState, reducer, SET_MOBILE_DETECT, setMobileDetect 
 export { MediaQueryWrapper, responsiveWrapper, PhoneScreen, TabletScreen, DesktopScreen, MobileScreen, PhoneScreenHidden, TabletScreenHidden, DesktopScreenHidden, MobileScreenHidden, XsScreen, SmScreen, MdScreen, LgScreen, XsScreenHidden, SmScreenHidden, MdScreenHidden, LgScreenHidden } from './components';
 export { breakPoints, defaultSizes } from './defaults';
 export { mobileParser } from './parser';
+export { hoc } from './hoc';
 //# sourceMappingURL=index.js.map

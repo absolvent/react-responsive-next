@@ -15,8 +15,8 @@ var MediaQueryWrapper = function MediaQueryWrapper() {
       other = _objectWithoutProperties(props, ["dispatch", "fakeWidth", "children"]);
 
   var values = {
-    deviceWidth: fakeWidth,
-    width: fakeWidth
+    deviceWidth: MediaQuery.fakeWidth,
+    width: MediaQuery.fakeWidth
   };
   return React.createElement(MediaQuery, _extends({}, other, {
     values: values
@@ -24,6 +24,7 @@ var MediaQueryWrapper = function MediaQueryWrapper() {
 };
 
 export { MediaQueryWrapper };
+MediaQuery.fakeWidth = null;
 MediaQueryWrapper.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   component: PropTypes.oneOfType([PropTypes.node, PropTypes.func, PropTypes.string]),

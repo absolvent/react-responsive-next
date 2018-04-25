@@ -31,14 +31,14 @@ module.exports = {
       'error',
       'unix',
     ],
+    "semi": 0,
+    "padded-blocks":0,
+    "no-multi-spaces":0,
     quotes: [
       'error',
       'single',
     ],
-    semi: [
-      'error',
-      'never',
-    ],
+
     strict: 0,
     'react/jsx-filename-extension': 0,
     'react/jsx-no-literals': 0,
