@@ -34,8 +34,8 @@ MediaQueryWrapper.defaultProps = {
 };
 export var responsiveWrapper = function responsiveWrapper() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return function () {
-    return MediaQueryWrapper(props);
+  return function (p) {
+    return MediaQueryWrapper(_extends({}, props, p));
   };
 };
 export var TestScreen = MediaQueryWrapper({
