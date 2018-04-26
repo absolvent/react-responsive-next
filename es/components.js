@@ -32,7 +32,12 @@ MediaQueryWrapper.defaultProps = {
   children: null,
   component: 'div'
 };
-export var responsiveWrapper = MediaQueryWrapper;
+export var responsiveWrapper = function responsiveWrapper() {
+  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return function () {
+    return MediaQueryWrapper(props);
+  };
+};
 export var TestScreen = MediaQueryWrapper({
   query: '(max-width: 1224px)'
 });
