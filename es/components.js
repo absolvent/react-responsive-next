@@ -8,10 +8,8 @@ import { breakPoints } from './defaults';
 var MediaQueryWrapper = function MediaQueryWrapper() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-  var dispatch = props.dispatch,
-      fakeWidth = props.fakeWidth,
-      children = props.children,
-      other = _objectWithoutProperties(props, ["dispatch", "fakeWidth", "children"]);
+  var children = props.children,
+      other = _objectWithoutProperties(props, ["children"]);
 
   var values = {
     deviceWidth: MediaQuery.fakeWidth,
@@ -23,7 +21,7 @@ var MediaQueryWrapper = function MediaQueryWrapper() {
 };
 
 export { MediaQueryWrapper };
-MediaQuery.fakeWidth = null;
+MediaQuery.fakeWidth = 0;
 MediaQueryWrapper.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   component: PropTypes.oneOfType([PropTypes.node, PropTypes.func, PropTypes.string]),
@@ -35,6 +33,9 @@ MediaQueryWrapper.defaultProps = {
   component: 'div'
 };
 export var responsiveWrapper = MediaQueryWrapper;
+export var TestScreen = MediaQueryWrapper({
+  query: '(max-width: 1224px)'
+});
 export var XsScreen = responsiveWrapper({
   maxWidth: breakPoints.sm - 1
 });

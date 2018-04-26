@@ -6,9 +6,7 @@ import { breakPoints } from './defaults'
 
 export const MediaQueryWrapper = (props = {}) => {
   // eslint-disable-next-line no-unused-vars
-  const {
-    dispatch, fakeWidth, children, ...other
-  } = props;
+  const { children, ...other } = props;
   const values = { deviceWidth: MediaQuery.fakeWidth, width: MediaQuery.fakeWidth };
   return (
     <MediaQuery {...other} {...{ values }} >
@@ -17,7 +15,7 @@ export const MediaQueryWrapper = (props = {}) => {
   )
 }
 
-MediaQuery.fakeWidth = null;
+MediaQuery.fakeWidth = 0;
 
 MediaQueryWrapper.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
@@ -29,10 +27,11 @@ MediaQueryWrapper.propTypes = {
 MediaQueryWrapper.defaultProps = {
   children: null,
   component: 'div',
-}
+};
 
 export const responsiveWrapper = MediaQueryWrapper;
 
+export const TestScreen = MediaQueryWrapper({ query: '(max-width: 1224px)' });
 export const XsScreen = responsiveWrapper({ maxWidth: breakPoints.sm - 1 })
 export const SmScreen = responsiveWrapper({ query: `(min-width: ${breakPoints.sm}px) and (max-width: ${breakPoints.md - 1}px)` })
 export const MdScreen = responsiveWrapper({ query: `(min-width: ${breakPoints.md}px) and (max-width: ${breakPoints.lg - 1}px)` })
