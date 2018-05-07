@@ -1,10 +1,8 @@
 // explicitly naming exports because webpack doesn't tree-shake 'export * from'
 // correctly
 export {
-  MediaQueryWrapper, responsiveWrapper, PhoneScreen, TabletScreen,
-  DesktopScreen, MobileScreen, PhoneScreenHidden, TabletScreenHidden,
-  DesktopScreenHidden, MobileScreenHidden, XsScreen, SmScreen, MdScreen,
-  LgScreen, XsScreenHidden, SmScreenHidden, MdScreenHidden, LgScreenHidden,
+  MediaQueryWrapper, responsiveWrapper,
+  PhoneScreen, PhoneTabletScreen, TabletScreen, TabletDesktopScreen, DesktopScreen,
 } from './components'
-export { breakPoints, defaultDevicesSizes } from './defaults';
-export { hoc } from './hoc';
+export { breakPoints } from './defaults';
+export { hoc as ReactResponsiveNextHoc } from './hoc';

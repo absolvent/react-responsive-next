@@ -1,4 +1,4 @@
-export { MediaQueryWrapper, responsiveWrapper, PhoneScreen, TabletScreen, DesktopScreen, MobileScreen, PhoneScreenHidden, TabletScreenHidden, DesktopScreenHidden, MobileScreenHidden, XsScreen, SmScreen, MdScreen, LgScreen, XsScreenHidden, SmScreenHidden, MdScreenHidden, LgScreenHidden } from './components';
-export { breakPoints, defaultDevicesSizes } from './defaults';
+export { MediaQueryWrapper, responsiveWrapper, PhoneScreen, PhoneTabletScreen, TabletScreen, TabletDesktopScreen, DesktopScreen } from './components';
+export { breakPoints } from './defaults';
 export { hoc } from './hoc';
 //# sourceMappingURL=index.js.map

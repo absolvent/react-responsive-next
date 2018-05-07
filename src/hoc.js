@@ -1,29 +1,63 @@
 /* global require */
 
 import debounce from 'lodash.debounce';
-import mq from 'matchmediaquery';
+import matchMediaQuery from 'matchmediaquery';
+import PropTypes from 'prop-types';
+import Cookies from 'isomorphic-cookie';
+import React from 'react';
 import { MediaQueryWrapper } from './components';
-import { defaultDevicesSizes, mediaQueries } from './defaults';
-
-const React = require('react');
+import { getMedia } from './media';
+import { breakPoints as defaultBreakPoints } from './defaults';
 
 export const hoc = WrappedComponent => class ReactResponsiveNextHoc extends React.Component {
 
-  static onResize() {
-    const windowWidth = window.innerWidth ||
+  static propTypes = {
+    breakPoints: PropTypes.shape({
+      tablet: PropTypes.number,
+      desktop: PropTypes.number,
+    }),
+  };
+
+  static defaultProps = {
+    breakPoints: defaultBreakPoints,
+  };
+
+  static getBrowserWidth() {
+    return window.innerWidth ||
       document.documentElement.clientWidth ||
       document.body.clientWidth;
-    const windowHeight = window.innerHeight ||
-      document.documentElement.clientHeight ||
-      document.body.clientHeight;
-    console.log('onResize', windowWidth, windowHeight);
-
-
-    // console.log('onResize isDesktop', isDesktop.matches);
   }
 
-  static onMediaQueryMatch(a1, a2) {
-    console.log('onMediaQueryMatch', a1, a2);
+  static getBrowserHeight() {
+    return window.innerHeight ||
+      document.documentElement.clientHeight ||
+      document.body.clientHeight;
+  }
+
+  static onResize() {
+    ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
+  }
+
+  static updateDeviceTypeByViewportSize() {
+    let detectedMedia = null;
+    ReactResponsiveNextHoc.mediaQueriesMatchers.forEach((mediaItem) => {
+      if (mediaItem.matcher.matches) {
+        if (!detectedMedia
+          || (detectedMedia && detectedMedia.defaultWidth < mediaItem.defaultWidth)) {
+          detectedMedia = mediaItem;
+        }
+      }
+    });
+    Cookies.save('detectedMediaWidth', detectedMedia.defaultWidth, { secure: false });
+    Cookies.save('detectedMediaType', detectedMedia.type, { secure: false });
+  }
+
+  static getDefaultMediaWidthByType(mediaType) {
+    const media = getMedia(defaultBreakPoints);
+    if (media[mediaType]) {
+      return media[mediaType].defaultWidth;
+    }
+    return media.desktop.defaultWidth;
   }
 
   static async getInitialProps(args = {}) {
@@ -33,23 +67,26 @@ export const hoc = WrappedComponent => class ReactResponsiveNextHoc extends Reac
 
     if (args && args.req) {
       const device = eval('require(\'device\')');
-
+      const detectedMediaType = Cookies.load('detectedMediaType', args.req);
+      const detectedMediaWidth = Cookies.load('detectedMediaWidth', args.req);
       const checkEnvironment = ({ headers = {} } = {}) => {
         const ua = headers['user-agent'] || headers['User-Agent'] || '';
         const detectedDevice = device(ua);
-        const detectedDeviceWidth = defaultDevicesSizes[detectedDevice.type] || null;
         return {
-          detectedDeviceType: detectedDevice.type,
-          detectedDeviceModel: detectedDevice.model,
-          detectedDeviceWidth,
+          userAgentMediaType: detectedDevice.type,
+          detectedMediaType: detectedMediaType || detectedDevice.type,
+          detectedMediaWidth: detectedMediaWidth
+            || ReactResponsiveNextHoc.getDefaultMediaWidthByType(detectedDevice.type),
+          detectedMediaModel: detectedDevice.model || null,
         }
       };
       newProps.env = checkEnvironment(args.req);
     } else {
       newProps.env = {
-        detectedDeviceType: null,
-        detectedDeviceName: null,
-        detectedDeviceWidth: null,
+        userAgentMediaType: null,
+        detectedMediaType: null,
+        detectedMediaWidth: 0,
+        detectedMediaModel: null,
       };
     }
     const newArgs = {
@@ -62,17 +99,30 @@ export const hoc = WrappedComponent => class ReactResponsiveNextHoc extends Reac
         ...await WrappedComponent.getInitialProps(newArgs),
       };
     }
+    MediaQueryWrapper.fakeWidth = newProps.env.detectedMediaWidth;
     return newProps;
   }
 
   constructor(props) {
     super(props);
+    ReactResponsiveNextHoc.mediaQueriesMatchers = [];
+
+    const { breakPoints } = this.props;
     const windowWidth = process.browser ? window.innerWidth ||
       document.documentElement.clientWidth ||
       document.body.clientWidth : 1;
-    const isDesktop = mq(mediaQueries.isDesktop, { width: windowWidth });
-    isDesktop.addListener(ReactResponsiveNextHoc.onMediaQueryMatch);
-    MediaQueryWrapper.fakeWidth = 1200;
+
+    const media = getMedia(breakPoints);
+
+    Object.keys(media).forEach((type) => {
+      const { mediaQuery, defaultWidth } = media[type];
+      const matcher = matchMediaQuery(mediaQuery, { width: windowWidth }); // TODO: windowWidth?
+      ReactResponsiveNextHoc.mediaQueriesMatchers.push({
+        type,
+        matcher,
+        defaultWidth,
+      })
+    });
     this.state = {
       env: {},
     };
@@ -91,10 +141,6 @@ export const hoc = WrappedComponent => class ReactResponsiveNextHoc extends Reac
   }
 
   render() {
-    return (
-      <div>
-        <WrappedComponent {...this.state} {...this.props} />;
-      </div>
-    );
+    return <WrappedComponent {...this.state} {...this.props} />;
   }
 };
