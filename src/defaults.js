@@ -6,19 +6,20 @@ export const breakPoints = {
   sm: 768,
   md: 992,
   lg: 1200,
+  xlg: 1800,
 };
 
-export const defaultSizes = {
-  // the phone value covers portrait and landscape - there's no way to tell the
-  // difference from the request unless we have client hints (which don't work
-  // on the first request anyway) or something similar
+export const defaultDevicesSizes = {
+  bot: breakPoints.lg - 1,
   phone: breakPoints.sm - 1,
-  // this is tricky too - we're going by what bootstrap uses as a default but
-  // an ipad in portrait mode will match here even though the width might be
-  // 1024, 1112, or 1366. for now leave as is - in the future we could handle
-  // this by compiling a list of resolutions but that's a huge undertaking.
   tablet: breakPoints.md - 1,
-  // this comes from bootstrap lg which we use this as our default desktop size
-  // (even though technically > 991 is desktop most seem to fall here).
-  desktop: breakPoints.lg,
+  car: breakPoints.md - 1,
+  desktop: breakPoints.lg - 1,
+  tv: breakPoints.xlg,
+};
+
+export const mediaQueries = {
+  isPhone: `(max-width: ${defaultDevicesSizes.phone}px)`,
+  isTablet: `(min-width: ${breakPoints.md}px) and (max-width: ${breakPoints.lg - 1}px)`,
+  isDesktop: `(min-width: ${defaultDevicesSizes.desktop}px)`,
 };

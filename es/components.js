@@ -11,9 +11,10 @@ var MediaQueryWrapper = function MediaQueryWrapper() {
   var children = props.children,
       other = _objectWithoutProperties(props, ["children"]);
 
+  console.log('MediaQueryWrapper func', MediaQueryWrapper.fakeWidth, props);
   var values = {
-    deviceWidth: MediaQuery.fakeWidth,
-    width: MediaQuery.fakeWidth
+    deviceWidth: MediaQueryWrapper.fakeWidth,
+    width: MediaQueryWrapper.fakeWidth
   };
   return React.createElement(MediaQuery, _extends({}, other, {
     values: values
@@ -21,7 +22,6 @@ var MediaQueryWrapper = function MediaQueryWrapper() {
 };
 
 export { MediaQueryWrapper };
-MediaQuery.fakeWidth = 0;
 MediaQueryWrapper.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   component: PropTypes.oneOfType([PropTypes.node, PropTypes.func, PropTypes.string]),
@@ -38,9 +38,6 @@ export var responsiveWrapper = function responsiveWrapper() {
     return MediaQueryWrapper(_extends({}, props, p));
   };
 };
-export var TestScreen = MediaQueryWrapper({
-  query: '(max-width: 1224px)'
-});
 export var XsScreen = responsiveWrapper({
   maxWidth: breakPoints.sm - 1
 });

@@ -3,6 +3,7 @@ module.exports = {
     browser: true,
     es6: true,
     node: true,
+    amd: true
   },
   extends: [
     'airbnb', 'plugin:unicorn/recommended', 'plugin:react/all',
@@ -34,6 +35,8 @@ module.exports = {
     "semi": 0,
     "padded-blocks":0,
     "no-multi-spaces":0,
+    "global-require":0,
+    "no-eval":0,
     quotes: [
       'error',
       'single',

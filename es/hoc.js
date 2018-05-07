@@ -6,7 +6,10 @@ import _classCallCheck from "@babel/runtime/helpers/classCallCheck";
 import _possibleConstructorReturn from "@babel/runtime/helpers/possibleConstructorReturn";
 import _createClass from "@babel/runtime/helpers/createClass";
 import _inherits from "@babel/runtime/helpers/inherits";
+import debounce from 'lodash.debounce';
+import mq from 'matchmediaquery';
 import { MediaQueryWrapper } from './components';
+import { defaultDevicesSizes, mediaQueries } from './defaults';
 
 var React = require('react');
 
@@ -15,11 +18,25 @@ export var hoc = function hoc(WrappedComponent) {
     _inherits(ReactResponsiveNextHoc, _React$Component);
 
     _createClass(ReactResponsiveNextHoc, null, [{
+      key: "onResize",
+      value: function onResize() {
+        var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        console.log('onResize', windowWidth, windowHeight);
+      }
+    }, {
+      key: "onMediaQueryMatch",
+      value: function onMediaQueryMatch(a1, a2) {
+        console.log('onMediaQueryMatch', a1, a2);
+      }
+    }, {
       key: "getInitialProps",
       value: function () {
         var _getInitialProps = _asyncToGenerator(_regeneratorRuntime.mark(function _callee() {
           var args,
               newProps,
+              device,
+              checkEnvironment,
               newArgs,
               _args = arguments;
           return _regeneratorRuntime.wrap(function _callee$(_context) {
@@ -31,7 +48,32 @@ export var hoc = function hoc(WrappedComponent) {
                     env: {}
                   };
 
-                  if (args && args.req) {} else {}
+                  if (args && args.req) {
+                    device = eval('require(\'device\')');
+
+                    checkEnvironment = function checkEnvironment() {
+                      var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+                          _ref$headers = _ref.headers,
+                          headers = _ref$headers === void 0 ? {} : _ref$headers;
+
+                      var ua = headers['user-agent'] || headers['User-Agent'] || '';
+                      var detectedDevice = device(ua);
+                      var detectedDeviceWidth = defaultDevicesSizes[detectedDevice.type] || null;
+                      return {
+                        detectedDeviceType: detectedDevice.type,
+                        detectedDeviceModel: detectedDevice.model,
+                        detectedDeviceWidth: detectedDeviceWidth
+                      };
+                    };
+
+                    newProps.env = checkEnvironment(args.req);
+                  } else {
+                    newProps.env = {
+                      detectedDeviceType: null,
+                      detectedDeviceName: null,
+                      detectedDeviceWidth: null
+                    };
+                  }
 
                   newArgs = _extends({}, args, newProps);
 
@@ -51,10 +93,9 @@ export var hoc = function hoc(WrappedComponent) {
                   newProps = (0, _context.t0)(_context.t1, _context.t2, _context.t3);
 
                 case 12:
-                  MediaQueryWrapper.fakeWidth = 800;
                   return _context.abrupt("return", newProps);
 
-                case 14:
+                case 13:
                 case "end":
                   return _context.stop();
               }
@@ -74,6 +115,12 @@ export var hoc = function hoc(WrappedComponent) {
       _classCallCheck(this, ReactResponsiveNextHoc);
 
       _this = _possibleConstructorReturn(this, (ReactResponsiveNextHoc.__proto__ || _Object$getPrototypeOf(ReactResponsiveNextHoc)).call(this, props));
+      var windowWidth = process.browser ? window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth : 1;
+      var isDesktop = mq(mediaQueries.isDesktop, {
+        width: windowWidth
+      });
+      isDesktop.addListener(ReactResponsiveNextHoc.onMediaQueryMatch);
+      MediaQueryWrapper.fakeWidth = 1200;
       _this.state = {
         env: {}
       };
@@ -81,9 +128,23 @@ export var hoc = function hoc(WrappedComponent) {
     }
 
     _createClass(ReactResponsiveNextHoc, [{
+      key: "componentDidMount",
+      value: function componentDidMount() {
+        ReactResponsiveNextHoc.onResize();
+        this.onResizeHandler = debounce(ReactResponsiveNextHoc.onResize, 200);
+        window.addEventListener('resize', this.onResizeHandler, false);
+      }
+    }, {
+      key: "componentWillUnmount",
+      value: function componentWillUnmount() {
+        if (this.onResizeHandler) {
+          window.removeEventListener('resize', this.onResizeHandler, false);
+        }
+      }
+    }, {
       key: "render",
       value: function render() {
-        return React.createElement(WrappedComponent, _extends({}, this.state, this.props));
+        return React.createElement("div", null, React.createElement(WrappedComponent, _extends({}, this.state, this.props)), ";");
       }
     }]);
 
