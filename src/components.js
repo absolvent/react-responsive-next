@@ -33,6 +33,6 @@ const media = getMedia(breakPoints);
 
 export const PhoneScreen = responsiveWrapper({ query: media.phone.mediaQuery });
 export const TabletScreen = responsiveWrapper({ query: media.tablet.mediaQuery });
-export const DesktopScreen = responsiveWrapper({ query: media.desktop.mediaQuery });
-export const PhoneTabletScreen = responsiveWrapper({ query: `(max-width: ${breakPoints.desktop - 1}px)` });
-export const TabletDesktopScreen = responsiveWrapper({ query: `(min-width: ${breakPoints.tablet}px)` });
+export const DesktopAndUpScreen = responsiveWrapper({ query: media.desktop.mediaQuery });
+export const PhoneAndTabletScreen = responsiveWrapper({ query: `(max-width: ${breakPoints.desktop - 1}px)` });
+export const TabletAndUpScreen = responsiveWrapper({ query: `(min-width: ${breakPoints.tablet}px)` });
