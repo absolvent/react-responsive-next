@@ -1,4 +1,5 @@
-# react-responsive-next
+# react-responsive-next v0.6.1
+# react-responsive-next v0.6.1
 
 ## Project Idea
 
