@@ -2,7 +2,7 @@
 // correctly
 export {
   MediaQueryWrapper, responsiveWrapper,
-  PhoneScreen, PhoneTabletScreen, TabletScreen, TabletDesktopScreen, DesktopScreen,
+  PhoneScreen, PhoneAndTabletScreen, TabletScreen, TabletAndUpScreen, DesktopAndUpScreen,
 } from './components'
 export { breakPoints } from './defaults';
 export { hoc as ReactResponsiveConnect } from './hoc';
