@@ -1,25 +1,22 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
-import { createMockStore } from 'redux-test-utils'
 import MediaQuery from 'react-responsive'
-import { MediaQueryWrapper, responsiveWrapper, PhoneScreen, TabletScreen,
+import {
+  MediaQueryWrapper, responsiveWrapper, PhoneScreen, TabletScreen,
   MobileScreen, DesktopScreen, PhoneScreenHidden, TabletScreenHidden,
   DesktopScreenHidden, MobileScreenHidden, XsScreen, XsScreenHidden, SmScreen,
-  SmScreenHidden, MdScreen, MdScreenHidden, LgScreen, LgScreenHidden } from '../src'
+  SmScreenHidden, MdScreen, MdScreenHidden, LgScreen, LgScreenHidden,
+} from '../src'
 
 import { breakPoints } from '../src/defaults'
 
-const shallowWithStore = (component, store) => {
-  const context = {
-    store: createMockStore(store),
-  }
+const shallowWithStore = (component) => {
+  const context = {}
   return shallow(component, { context })
 }
 
-const mountWithStore = (component, store) => {
-  const context = {
-    store: createMockStore(store),
-  }
+const mountWithStore = (component) => {
+  const context = {}
   return mount(component, { context })
 }
 

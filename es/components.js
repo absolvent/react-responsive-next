@@ -3,20 +3,18 @@ import _objectWithoutProperties from "@babel/runtime/helpers/objectWithoutProper
 import React from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
-import { connect } from 'react-redux';
 import { breakPoints } from './defaults';
+import { getMedia } from './media';
 
 var MediaQueryWrapper = function MediaQueryWrapper() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-  var dispatch = props.dispatch,
-      fakeWidth = props.fakeWidth,
-      children = props.children,
-      other = _objectWithoutProperties(props, ["dispatch", "fakeWidth", "children"]);
+  var children = props.children,
+      other = _objectWithoutProperties(props, ["children"]);
 
   var values = {
-    deviceWidth: fakeWidth,
-    width: fakeWidth
+    deviceWidth: MediaQueryWrapper.fakeWidth,
+    width: MediaQueryWrapper.fakeWidth
   };
   return React.createElement(MediaQuery, _extends({}, other, {
     values: values
@@ -36,46 +34,24 @@ MediaQueryWrapper.defaultProps = {
 };
 export var responsiveWrapper = function responsiveWrapper() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return connect(function (state) {
-    return _extends({
-      fakeWidth: state.responsive.fakeWidth
-    }, props);
-  })(MediaQueryWrapper);
+  return function (p) {
+    return MediaQueryWrapper(_extends({}, props, p));
+  };
 };
-export var XsScreen = responsiveWrapper({
-  maxWidth: breakPoints.sm - 1
+var media = getMedia(breakPoints);
+export var PhoneScreen = responsiveWrapper({
+  query: media.phone.mediaQuery
 });
-export var SmScreen = responsiveWrapper({
-  query: "(min-width: ".concat(breakPoints.sm, "px) and (max-width: ").concat(breakPoints.md - 1, "px)")
+export var TabletScreen = responsiveWrapper({
+  query: media.tablet.mediaQuery
 });
-export var MdScreen = responsiveWrapper({
-  query: "(min-width: ".concat(breakPoints.md, "px) and (max-width: ").concat(breakPoints.lg - 1, "px)")
-});
-export var LgScreen = responsiveWrapper({
-  query: "(min-width: ".concat(breakPoints.lg, "px)")
-});
-export var XsScreenHidden = responsiveWrapper({
-  minWidth: breakPoints.sm
-});
-export var SmScreenHidden = responsiveWrapper({
-  query: "(max-width: ".concat(breakPoints.sm - 1, "px), (min-width: ").concat(breakPoints.md, "px)")
-});
-export var MdScreenHidden = responsiveWrapper({
-  query: "(max-width: ".concat(breakPoints.md - 1, "px), (min-width: ").concat(breakPoints.lg, "px)")
-});
-export var LgScreenHidden = responsiveWrapper({
-  maxWidth: breakPoints.lg - 1
-});
-export { XsScreen as PhoneScreen };
-export { SmScreen as TabletScreen };
 export var DesktopScreen = responsiveWrapper({
-  minWidth: breakPoints.md
+  query: media.desktop.mediaQuery
 });
-export var MobileScreen = responsiveWrapper({
-  maxWidth: breakPoints.md - 1
+export var PhoneTabletScreen = responsiveWrapper({
+  query: "(max-width: ".concat(breakPoints.desktop - 1, "px)")
 });
-export { XsScreenHidden as PhoneScreenHidden };
-export { SmScreenHidden as TabletScreenHidden };
-export { MobileScreen as DesktopScreenHidden };
-export { DesktopScreen as MobileScreenHidden };
+export var TabletDesktopScreen = responsiveWrapper({
+  query: "(min-width: ".concat(breakPoints.tablet, "px)")
+});
 //# sourceMappingURL=components.js.map
