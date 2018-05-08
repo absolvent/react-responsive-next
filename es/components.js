@@ -45,13 +45,13 @@ export var PhoneScreen = responsiveWrapper({
 export var TabletScreen = responsiveWrapper({
   query: media.tablet.mediaQuery
 });
-export var DesktopScreen = responsiveWrapper({
+export var DesktopAndUpScreen = responsiveWrapper({
   query: media.desktop.mediaQuery
 });
-export var PhoneTabletScreen = responsiveWrapper({
+export var PhoneAndTabletScreen = responsiveWrapper({
   query: "(max-width: ".concat(breakPoints.desktop - 1, "px)")
 });
-export var TabletDesktopScreen = responsiveWrapper({
+export var TabletAndUpScreen = responsiveWrapper({
   query: "(min-width: ".concat(breakPoints.tablet, "px)")
 });
 //# sourceMappingURL=components.js.map
