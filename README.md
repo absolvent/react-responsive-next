@@ -1,4 +1,5 @@
-# react-responsive-redux
+# react-responsive-next v0.6.1
+# react-responsive-next v0.6.1
 
 ## Project Idea
 
@@ -20,7 +21,7 @@ is being stored in a session cookie.
 ## Installation
 Install with or [yarn](https://yarnpkg.com):
 ```
-yarn add https://github.com/pawelsamsel/react-responsive-next
+yarn add https://github.com/absolvent/react-responsive-next.git
 ```
 
 ## Usage
