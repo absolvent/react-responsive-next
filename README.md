@@ -1,4 +1,4 @@
-# react-responsive-redux
+# react-responsive-next
 
 ## Project Idea
 
