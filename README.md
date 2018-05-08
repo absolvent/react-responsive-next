@@ -20,7 +20,7 @@ is being stored in a session cookie.
 ## Installation
 Install with or [yarn](https://yarnpkg.com):
 ```
-yarn add https://github.com/pawelsamsel/react-responsive-next
+yarn add https://github.com/absolvent/react-responsive-next.git
 ```
 
 ## Usage
