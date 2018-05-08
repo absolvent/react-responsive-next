@@ -34,35 +34,25 @@ export var hoc = function hoc(WrappedComponent) {
     }, {
       key: "onResize",
       value: function onResize() {
-        console.log('onResize');
         ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
       }
     }, {
       key: "updateDeviceTypeByViewportSize",
       value: function updateDeviceTypeByViewportSize() {
-        console.log('getCurrentMedia');
         var detectedMedia = null;
         ReactResponsiveNextHoc.mediaQueriesMatchers.forEach(function (mediaItem) {
-          console.log('mediaQueryItem', mediaItem.type, mediaItem.matcher.matches);
-
           if (mediaItem.matcher.matches) {
             if (!detectedMedia || detectedMedia && detectedMedia.defaultWidth < mediaItem.defaultWidth) {
               detectedMedia = mediaItem;
             }
           }
         });
-        console.log('updateDeviceTypeByViewportSize', detectedMedia);
         Cookies.save('detectedMediaWidth', detectedMedia.defaultWidth, {
           secure: false
         });
         Cookies.save('detectedMediaType', detectedMedia.type, {
           secure: false
         });
-      }
-    }, {
-      key: "onMediaQueryMatch",
-      value: function onMediaQueryMatch(a1, a2) {
-        console.log('onMediaQueryMatch', a1, a2);
       }
     }, {
       key: "getDefaultMediaWidthByType",
@@ -100,7 +90,6 @@ export var hoc = function hoc(WrappedComponent) {
                     device = eval('require(\'device\')');
                     detectedMediaType = Cookies.load('detectedMediaType', args.req);
                     detectedMediaWidth = Cookies.load('detectedMediaWidth', args.req);
-                    console.log('cookie detectedMediaWidth', detectedMediaWidth);
 
                     checkEnvironment = function checkEnvironment() {
                       var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
@@ -210,7 +199,7 @@ export var hoc = function hoc(WrappedComponent) {
     }, {
       key: "render",
       value: function render() {
-        return React.createElement("div", null, React.createElement(WrappedComponent, _extends({}, this.state, this.props)), ";");
+        return React.createElement(WrappedComponent, _extends({}, this.state, this.props));
       }
     }]);
 
