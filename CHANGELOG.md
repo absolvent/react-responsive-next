@@ -1,5 +1,8 @@
 ## Change Log
 
+### v0.7.1
+- Updated readme for a new helper names
+
 ### v0.7.0
 - Renamed helpers for different media
 

@@ -1,4 +1,4 @@
-# react-responsive-next v0.7.0
+# react-responsive-next v0.7.1
 
 ## Project Idea
 
@@ -32,7 +32,7 @@ To use `react-responsive-next` you need to do the following:
 #### ES6 Example
 ```javascript
 import React from 'react';
-import { ReactResponsiveConnect, PhoneScreen, DesktopScreen, TabletScreen, PhoneTabletScreen, TabletDesktopScreen } from 'react-responsive-next';
+import { ReactResponsiveConnect, PhoneScreen, PhoneAndTabletScreen, TabletScreen, TabletAndUpScreen, DesktopAndUpScreen } from 'react-responsive-next';
 
 class IndexPage extends React.PureComponent {
 
@@ -46,15 +46,15 @@ class IndexPage extends React.PureComponent {
           <TabletScreen>
             Content only on a tablet
           </TabletScreen>
-          <DesktopScreen>
-            Content only on a desktop
-          </DesktopScreen>
-          <TabletDesktopScreen>
+          <DesktopAndUpScreen>
+            Content only a desktop and larger screens
+          </DesktopAndUpScreen>
+          <TabletAndUpScreen>
             Content on a tablet and a desktop
-          </TabletDesktopScreen>
-          <PhoneTabletScreen>
+          </TabletAndUpScreen>
+          <PhoneAndTabletScreen>
             Content on a phone and a tablet
-          </PhoneTabletScreen>
+          </PhoneAndTabletScreen>
         </div>
     );
   }
