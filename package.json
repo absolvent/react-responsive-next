@@ -1,6 +1,6 @@
 {
   "name": "react-responsive-next",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "the next.js integration for the react-responsive",
   "main": "lib/index.js",
   "module": "es/index.js",
