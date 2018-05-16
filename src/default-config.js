@@ -5,8 +5,8 @@ export const TAG = '[react-responsive-next]';
 export const defaultConfig = {
   breakPoints: {
     sm: { to: 767 },
-    md: { from: 768, to: 1279 },
-    lg: { from: 1280 },
+    md: { from: 768, to: 1239 },
+    lg: { from: 1240 },
   },
   devicesToBreakPoints: {
     phone: 'sm',
