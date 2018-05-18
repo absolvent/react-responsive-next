@@ -1,4 +1,4 @@
-# react-responsive-next v0.8.1
+# react-responsive-next v0.8.0
 
 ## Project Idea
 Add a simple to use tool to detect user media and then serve content adapted to the browser size and the device.
