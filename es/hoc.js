@@ -1,12 +1,13 @@
-import _Object$keys from "@babel/runtime/core-js/object/keys";
-import _Object$getPrototypeOf from "@babel/runtime/core-js/object/get-prototype-of";
-import _regeneratorRuntime from "@babel/runtime/regenerator";
 import _extends from "@babel/runtime/helpers/extends";
+import _Object$keys from "@babel/runtime/core-js/object/keys";
+import _regeneratorRuntime from "@babel/runtime/regenerator";
+import _objectSpread from "@babel/runtime/helpers/objectSpread";
 import _asyncToGenerator from "@babel/runtime/helpers/asyncToGenerator";
 import _classCallCheck from "@babel/runtime/helpers/classCallCheck";
-import _possibleConstructorReturn from "@babel/runtime/helpers/possibleConstructorReturn";
-import _createClass from "@babel/runtime/helpers/createClass";
 import _inherits from "@babel/runtime/helpers/inherits";
+import _possibleConstructorReturn from "@babel/runtime/helpers/possibleConstructorReturn";
+import _getPrototypeOf from "@babel/runtime/helpers/getPrototypeOf";
+import _createClass from "@babel/runtime/helpers/createClass";
 import debounce from 'lodash.debounce';
 import matchMediaQuery from 'matchmediaquery';
 import PropTypes from 'prop-types';
@@ -14,22 +15,19 @@ import Cookies from 'isomorphic-cookie';
 import React from 'react';
 import { MediaQueryWrapper } from './components';
 import { getMedia } from './media';
-import { breakPoints as defaultBreakPoints } from './defaults';
+import { defaultConfig } from './default-config';
 export var hoc = function hoc(WrappedComponent) {
   var _class, _temp;
 
   return _temp = _class = function (_React$Component) {
-    _inherits(ReactResponsiveNextHoc, _React$Component);
-
     _createClass(ReactResponsiveNextHoc, null, [{
       key: "getBrowserWidth",
       value: function getBrowserWidth() {
-        return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-      }
-    }, {
-      key: "getBrowserHeight",
-      value: function getBrowserHeight() {
-        return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        if (process.browser) {
+          return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        }
+
+        return -1;
       }
     }, {
       key: "onResize",
@@ -57,7 +55,7 @@ export var hoc = function hoc(WrappedComponent) {
     }, {
       key: "getDefaultMediaWidthByType",
       value: function getDefaultMediaWidthByType(mediaType) {
-        var media = getMedia(defaultBreakPoints);
+        var media = getMedia(hoc.customConfig || defaultConfig);
 
         if (media[mediaType]) {
           return media[mediaType].defaultWidth;
@@ -116,14 +114,14 @@ export var hoc = function hoc(WrappedComponent) {
                     };
                   }
 
-                  newArgs = _extends({}, args, newProps);
+                  newArgs = _objectSpread({}, args, newProps);
 
                   if (!WrappedComponent.getInitialProps) {
                     _context.next = 12;
                     break;
                   }
 
-                  _context.t0 = _extends;
+                  _context.t0 = _objectSpread;
                   _context.t1 = {};
                   _context.t2 = newProps;
                   _context.next = 10;
@@ -156,18 +154,17 @@ export var hoc = function hoc(WrappedComponent) {
 
       _classCallCheck(this, ReactResponsiveNextHoc);
 
-      _this = _possibleConstructorReturn(this, (ReactResponsiveNextHoc.__proto__ || _Object$getPrototypeOf(ReactResponsiveNextHoc)).call(this, props));
+      _this = _possibleConstructorReturn(this, _getPrototypeOf(ReactResponsiveNextHoc).call(this, props));
       ReactResponsiveNextHoc.mediaQueriesMatchers = [];
-      var breakPoints = _this.props.breakPoints;
-      var windowWidth = process.browser ? window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth : 1;
-      var media = getMedia(breakPoints);
+      var config = _this.props.config;
+      var media = getMedia(config);
 
       _Object$keys(media).forEach(function (type) {
         var _media$type = media[type],
             mediaQuery = _media$type.mediaQuery,
             defaultWidth = _media$type.defaultWidth;
         var matcher = matchMediaQuery(mediaQuery, {
-          width: windowWidth
+          width: ReactResponsiveNextHoc.getBrowserWidth()
         });
         ReactResponsiveNextHoc.mediaQueriesMatchers.push({
           type: type,
@@ -203,14 +200,16 @@ export var hoc = function hoc(WrappedComponent) {
       }
     }]);
 
+    _inherits(ReactResponsiveNextHoc, _React$Component);
+
     return ReactResponsiveNextHoc;
-  }(React.Component), _class.propTypes = {
-    breakPoints: PropTypes.shape({
-      tablet: PropTypes.number,
-      desktop: PropTypes.number
+  }(React.Component), _class.customConfig = null, _class.propTypes = {
+    config: PropTypes.shape({
+      breakPoints: PropTypes.any,
+      devicesToBreakPoints: PropTypes.any
     })
   }, _class.defaultProps = {
-    breakPoints: defaultBreakPoints
+    config: hoc.customConfig || defaultConfig
   }, _temp;
 };
 //# sourceMappingURL=hoc.js.map
