@@ -1,3 +1,5 @@
+# react-responsive-next v0.8.0
+
 ## Project Idea
 Add a simple to use tool to detect user media and then serve content adapted to the browser size and the device.
 It's based on the [react-responsive-redux](https://github.com/modosc/react-responsive-redux) project but without using the redux.
@@ -56,10 +58,13 @@ class IndexPage extends React.PureComponent {
 
 export default ReactResponsiveConnect(IndexPage);
 ```
-Components can receive device alias that is passed by props for example: `<Show on={'sm'}>`
+
+Components can receive device alias that is passed by props for example:
+`<Show on={'sm'}>`
 
 But you can also define range  by passing props `from` and  `to` for example:
 `<Show from={'sm'} to={'md'}>`
+
 #### Default config
 By default below config is being used with defined named ranges as `sm` (small), 
 `md` (medium), `lg` (large) which can be used in `Show`/`Hide` components.

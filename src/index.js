@@ -2,7 +2,8 @@
 // correctly
 export {
   MediaQueryWrapper, responsiveWrapper,
+  Show, Hide,
   PhoneScreen, PhoneAndTabletScreen, TabletScreen, TabletAndUpScreen, DesktopAndUpScreen,
 } from './components'
-export { breakPoints } from './defaults';
+export { defaultConfig } from './default-config';
 export { hoc as ReactResponsiveConnect } from './hoc';
