@@ -1,5 +1,8 @@
 ## Change Log
 
+### v0.8.1
+- Rebuild of the current version
+
 ### v0.8.0
 - Added Show and Hide components
 - Added possibility of defining a config with breakpoints and device mappings
