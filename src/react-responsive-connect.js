@@ -9,7 +9,7 @@ import { MediaQueryWrapper } from './components';
 import { getMedia } from './media';
 import { defaultConfig } from './default-config';
 
-export const hoc = WrappedComponent =>
+export const ReactResponsiveConnect = WrappedComponent =>
   class ReactResponsiveNextHoc extends React.Component {
 
     static customConfig = null;
@@ -22,7 +22,7 @@ export const hoc = WrappedComponent =>
     };
 
     static defaultProps = {
-      config: hoc.customConfig || defaultConfig,
+      config: ReactResponsiveConnect.customConfig || defaultConfig,
     };
 
     static getBrowserWidth() {
@@ -56,7 +56,7 @@ export const hoc = WrappedComponent =>
     }
 
     static getDefaultMediaWidthByType(mediaType) {
-      const media = getMedia(hoc.customConfig || defaultConfig);
+      const media = getMedia(ReactResponsiveConnect.customConfig || defaultConfig);
       if (media[mediaType]) {
         return media[mediaType].defaultWidth;
       }
