@@ -14,30 +14,6 @@ export const ReactResponsiveConnect = WrappedComponent =>
 
     static customConfig = null;
 
-    static propTypes = {
-      config: PropTypes.shape({
-        breakPoints: PropTypes.any,
-        devicesToBreakPoints: PropTypes.any,
-      }),
-    };
-
-    static defaultProps = {
-      config: ReactResponsiveConnect.customConfig || defaultConfig,
-    };
-
-    static getBrowserWidth() {
-      if (process.browser) {
-        return window.innerWidth ||
-          document.documentElement.clientWidth ||
-          document.body.clientWidth;
-      }
-      return -1;
-    }
-
-    static onResize() {
-      ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
-    }
-
     static updateDeviceTypeByViewportSize() {
       let detectedMedia = null;
       ReactResponsiveNextHoc.mediaQueriesMatchers.forEach((mediaItem) => {
@@ -52,56 +28,16 @@ export const ReactResponsiveConnect = WrappedComponent =>
       Cookies.save('detectedMediaType', detectedMedia.type, { secure: false });
     }
 
-    static getDefaultMediaWidthByType(mediaType) {
-      const media = getMedia(ReactResponsiveConnect.customConfig || defaultConfig);
-      if (media[mediaType]) {
-        return media[mediaType].defaultWidth;
-      }
-      return media.desktop.defaultWidth;
-    }
+    static propTypes = {
+      config: PropTypes.shape({
+        breakPoints: PropTypes.any,
+        devicesToBreakPoints: PropTypes.any,
+      }),
+    };
 
-    static async getInitialProps(args = {}) {
-      let newProps = {
-        env: {},
-      };
-
-      if (args && args.req) {
-        const device = eval('require(\'device\')'); // it's not bundled to a browser js
-        const detectedMediaType = Cookies.load('detectedMediaType', args.req);
-        const detectedMediaWidth = Cookies.load('detectedMediaWidth', args.req);
-        const checkEnvironment = ({ headers = {} } = {}) => {
-          const ua = headers['user-agent'] || headers['User-Agent'] || '';
-          const detectedDevice = device(ua);
-          return {
-            userAgentMediaType: detectedDevice.type,
-            detectedMediaType: detectedMediaType || detectedDevice.type,
-            detectedMediaWidth: detectedMediaWidth
-              || ReactResponsiveNextHoc.getDefaultMediaWidthByType(detectedDevice.type),
-            detectedMediaModel: detectedDevice.model || null,
-          }
-        };
-        newProps.env = checkEnvironment(args.req);
-      } else {
-        newProps.env = {
-          userAgentMediaType: null,
-          detectedMediaType: null,
-          detectedMediaWidth: 0,
-          detectedMediaModel: null,
-        };
-      }
-      const newArgs = {
-        ...args,
-        ...newProps,
-      };
-      if (WrappedComponent.getInitialProps) {
-        newProps = {
-          ...newProps,
-          ...await WrappedComponent.getInitialProps(newArgs),
-        };
-      }
-      MediaQueryWrapper.fakeWidth = newProps.env.detectedMediaWidth;
-      return newProps;
-    }
+    static defaultProps = {
+      config: ReactResponsiveConnect.customConfig || defaultConfig,
+    };
 
     constructor(props) {
       super(props);
@@ -135,6 +71,70 @@ export const ReactResponsiveConnect = WrappedComponent =>
       if (this.onResizeHandler) {
         window.removeEventListener('resize', this.onResizeHandler, false);
       }
+    }
+
+    static onResize() {
+      ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
+    }
+
+    static async getInitialProps(args = {}) {
+      let newProps = {
+        env: {},
+      };
+
+      if (args && args.req) {
+        const device = eval('require(\'device\')'); // it's not bundled to a browser js
+        const detectedMediaType = Cookies.load('detectedMediaType', args.req);
+        const detectedMediaWidth = Cookies.load('detectedMediaWidth', args.req);
+        const checkEnvironment = ({ headers = {} } = {}) => {
+          const ua = headers['user-agent'] || headers['User-Agent'] || '';
+          const detectedDevice = device(ua);
+          return {
+            userAgentMediaType: detectedDevice.type,
+            detectedMediaType: detectedMediaType || detectedDevice.type,
+            detectedMediaWidth: detectedMediaWidth
+            || ReactResponsiveNextHoc.getDefaultMediaWidthByType(detectedDevice.type),
+            detectedMediaModel: detectedDevice.model || null,
+          }
+        };
+        newProps.env = checkEnvironment(args.req);
+      } else {
+        newProps.env = {
+          userAgentMediaType: null,
+          detectedMediaType: null,
+          detectedMediaWidth: 0,
+          detectedMediaModel: null,
+        };
+      }
+      const newArgs = {
+        ...args,
+        ...newProps,
+      };
+      if (WrappedComponent.getInitialProps) {
+        newProps = {
+          ...newProps,
+          ...await WrappedComponent.getInitialProps(newArgs),
+        };
+      }
+      MediaQueryWrapper.fakeWidth = newProps.env.detectedMediaWidth;
+      return newProps;
+    }
+
+    static getDefaultMediaWidthByType(mediaType) {
+      const media = getMedia(ReactResponsiveConnect.customConfig || defaultConfig);
+      if (media[mediaType]) {
+        return media[mediaType].defaultWidth;
+      }
+      return media.desktop.defaultWidth;
+    }
+
+    static getBrowserWidth() {
+      if (process.browser) {
+        return window.innerWidth ||
+          document.documentElement.clientWidth ||
+          document.body.clientWidth;
+      }
+      return -1;
     }
 
     render() {
