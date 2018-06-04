@@ -1,13 +1,12 @@
-import _extends from "@babel/runtime/helpers/extends";
 import _Object$keys from "@babel/runtime/core-js/object/keys";
+import _Object$getPrototypeOf from "@babel/runtime/core-js/object/get-prototype-of";
 import _regeneratorRuntime from "@babel/runtime/regenerator";
-import _objectSpread from "@babel/runtime/helpers/objectSpread";
+import _extends from "@babel/runtime/helpers/extends";
 import _asyncToGenerator from "@babel/runtime/helpers/asyncToGenerator";
 import _classCallCheck from "@babel/runtime/helpers/classCallCheck";
-import _inherits from "@babel/runtime/helpers/inherits";
 import _possibleConstructorReturn from "@babel/runtime/helpers/possibleConstructorReturn";
-import _getPrototypeOf from "@babel/runtime/helpers/getPrototypeOf";
 import _createClass from "@babel/runtime/helpers/createClass";
+import _inherits from "@babel/runtime/helpers/inherits";
 import debounce from 'lodash.debounce';
 import matchMediaQuery from 'matchmediaquery';
 import PropTypes from 'prop-types';
@@ -16,10 +15,12 @@ import React from 'react';
 import { MediaQueryWrapper } from './components';
 import { getMedia } from './media';
 import { defaultConfig } from './default-config';
-export var hoc = function hoc(WrappedComponent) {
+export var ReactResponsiveConnect = function ReactResponsiveConnect(WrappedComponent) {
   var _class, _temp;
 
   return _temp = _class = function (_React$Component) {
+    _inherits(ReactResponsiveNextHoc, _React$Component);
+
     _createClass(ReactResponsiveNextHoc, null, [{
       key: "getBrowserWidth",
       value: function getBrowserWidth() {
@@ -59,7 +60,7 @@ export var hoc = function hoc(WrappedComponent) {
     }, {
       key: "getDefaultMediaWidthByType",
       value: function getDefaultMediaWidthByType(mediaType) {
-        var media = getMedia(hoc.customConfig || defaultConfig);
+        var media = getMedia(ReactResponsiveConnect.customConfig || defaultConfig);
 
         if (media[mediaType]) {
           return media[mediaType].defaultWidth;
@@ -118,14 +119,14 @@ export var hoc = function hoc(WrappedComponent) {
                     };
                   }
 
-                  newArgs = _objectSpread({}, args, newProps);
+                  newArgs = _extends({}, args, newProps);
 
                   if (!WrappedComponent.getInitialProps) {
                     _context.next = 12;
                     break;
                   }
 
-                  _context.t0 = _objectSpread;
+                  _context.t0 = _extends;
                   _context.t1 = {};
                   _context.t2 = newProps;
                   _context.next = 10;
@@ -158,7 +159,7 @@ export var hoc = function hoc(WrappedComponent) {
 
       _classCallCheck(this, ReactResponsiveNextHoc);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(ReactResponsiveNextHoc).call(this, props));
+      _this = _possibleConstructorReturn(this, (ReactResponsiveNextHoc.__proto__ || _Object$getPrototypeOf(ReactResponsiveNextHoc)).call(this, props));
       console.log('HOC', 'constructor', props);
       ReactResponsiveNextHoc.mediaQueriesMatchers = [];
       var config = _this.props.config;
@@ -209,8 +210,6 @@ export var hoc = function hoc(WrappedComponent) {
       }
     }]);
 
-    _inherits(ReactResponsiveNextHoc, _React$Component);
-
     return ReactResponsiveNextHoc;
   }(React.Component), _class.customConfig = null, _class.propTypes = {
     config: PropTypes.shape({
@@ -218,7 +217,7 @@ export var hoc = function hoc(WrappedComponent) {
       devicesToBreakPoints: PropTypes.any
     })
   }, _class.defaultProps = {
-    config: hoc.customConfig || defaultConfig
+    config: ReactResponsiveConnect.customConfig || defaultConfig
   }, _temp;
 };
-//# sourceMappingURL=hoc.js.map
+//# sourceMappingURL=react-responsive-connect.js.map

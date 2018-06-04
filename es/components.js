@@ -1,15 +1,15 @@
 import _Number$isNaN from "@babel/runtime/core-js/number/is-nan";
-import _objectSpread from "@babel/runtime/helpers/objectSpread";
 import _extends from "@babel/runtime/helpers/extends";
 import _objectWithoutProperties from "@babel/runtime/helpers/objectWithoutProperties";
 import React from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 import { defaultConfig, TAG } from './default-config';
-import { hoc } from './hoc';
+import { ReactResponsiveConnect } from './react-responsive-connect';
 import { getMedia } from './media';
 import { getMediaMinWidthByType, getMediaMaxWidthByType, mediaQueryBuilder, isStringOrNumber, isString } from './helpers';
-export var MediaQueryWrapper = function MediaQueryWrapper() {
+
+var MediaQueryWrapper = function MediaQueryWrapper() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   var children = props.children,
@@ -30,6 +30,8 @@ export var MediaQueryWrapper = function MediaQueryWrapper() {
     return isInvertMatch ? children : null;
   });
 };
+
+export { MediaQueryWrapper };
 MediaQueryWrapper.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   component: PropTypes.oneOfType([PropTypes.node, PropTypes.func, PropTypes.string]),
@@ -47,13 +49,13 @@ MediaQueryWrapper.defaultProps = {
 export var responsiveWrapper = function responsiveWrapper() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   return function (p) {
-    return MediaQueryWrapper(_objectSpread({}, props, p));
+    return MediaQueryWrapper(_extends({}, props, p));
   };
 };
 
 var generateShowHideComponent = function generateShowHideComponent(isHideComponent) {
   return function (props) {
-    var media = getMedia(hoc.customConfig || defaultConfig);
+    var media = getMedia(ReactResponsiveConnect.customConfig || defaultConfig);
     var on = props.on,
         from = props.from,
         to = props.to,
