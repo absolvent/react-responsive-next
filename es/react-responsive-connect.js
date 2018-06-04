@@ -1,13 +1,13 @@
-import _extends from "@babel/runtime/helpers/extends";
-import _Object$keys from "@babel/runtime/core-js/object/keys";
 import _regeneratorRuntime from "@babel/runtime/regenerator";
 import _objectSpread from "@babel/runtime/helpers/objectSpread";
 import _asyncToGenerator from "@babel/runtime/helpers/asyncToGenerator";
+import _extends from "@babel/runtime/helpers/extends";
+import _Object$keys from "@babel/runtime/core-js/object/keys";
 import _classCallCheck from "@babel/runtime/helpers/classCallCheck";
-import _inherits from "@babel/runtime/helpers/inherits";
 import _possibleConstructorReturn from "@babel/runtime/helpers/possibleConstructorReturn";
 import _getPrototypeOf from "@babel/runtime/helpers/getPrototypeOf";
 import _createClass from "@babel/runtime/helpers/createClass";
+import _inherits from "@babel/runtime/helpers/inherits";
 import debounce from 'lodash.debounce';
 import matchMediaQuery from 'matchmediaquery';
 import PropTypes from 'prop-types';
@@ -16,25 +16,13 @@ import React from 'react';
 import { MediaQueryWrapper } from './components';
 import { getMedia } from './media';
 import { defaultConfig } from './default-config';
-export var hoc = function hoc(WrappedComponent) {
+export var ReactResponsiveConnect = function ReactResponsiveConnect(WrappedComponent) {
   var _class, _temp;
 
   return _temp = _class = function (_React$Component) {
-    _createClass(ReactResponsiveNextHoc, null, [{
-      key: "getBrowserWidth",
-      value: function getBrowserWidth() {
-        if (process.browser) {
-          return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-        }
+    _inherits(ReactResponsiveNextHoc, _React$Component);
 
-        return -1;
-      }
-    }, {
-      key: "onResize",
-      value: function onResize() {
-        ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
-      }
-    }, {
+    _createClass(ReactResponsiveNextHoc, null, [{
       key: "updateDeviceTypeByViewportSize",
       value: function updateDeviceTypeByViewportSize() {
         var detectedMedia = null;
@@ -52,16 +40,61 @@ export var hoc = function hoc(WrappedComponent) {
           secure: false
         });
       }
+    }]);
+
+    function ReactResponsiveNextHoc(props) {
+      var _this;
+
+      _classCallCheck(this, ReactResponsiveNextHoc);
+
+      _this = _possibleConstructorReturn(this, _getPrototypeOf(ReactResponsiveNextHoc).call(this, props));
+      ReactResponsiveNextHoc.mediaQueriesMatchers = [];
+      var config = _this.props.config;
+      var media = getMedia(config);
+
+      _Object$keys(media).forEach(function (type) {
+        var _media$type = media[type],
+            mediaQuery = _media$type.mediaQuery,
+            defaultWidth = _media$type.defaultWidth;
+        var matcher = matchMediaQuery(mediaQuery, {
+          width: ReactResponsiveNextHoc.getBrowserWidth()
+        });
+        ReactResponsiveNextHoc.mediaQueriesMatchers.push({
+          type: type,
+          matcher: matcher,
+          defaultWidth: defaultWidth
+        });
+      });
+
+      _this.state = {
+        env: {}
+      };
+      return _this;
+    }
+
+    _createClass(ReactResponsiveNextHoc, [{
+      key: "componentDidMount",
+      value: function componentDidMount() {
+        ReactResponsiveNextHoc.onResize();
+        this.onResizeHandler = debounce(ReactResponsiveNextHoc.onResize, 200);
+        window.addEventListener('resize', this.onResizeHandler, false);
+      }
     }, {
-      key: "getDefaultMediaWidthByType",
-      value: function getDefaultMediaWidthByType(mediaType) {
-        var media = getMedia(hoc.customConfig || defaultConfig);
-
-        if (media[mediaType]) {
-          return media[mediaType].defaultWidth;
+      key: "componentWillUnmount",
+      value: function componentWillUnmount() {
+        if (this.onResizeHandler) {
+          window.removeEventListener('resize', this.onResizeHandler, false);
         }
-
-        return media.desktop.defaultWidth;
+      }
+    }, {
+      key: "render",
+      value: function render() {
+        return React.createElement(WrappedComponent, _extends({}, this.state, this.props));
+      }
+    }], [{
+      key: "onResize",
+      value: function onResize() {
+        ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
       }
     }, {
       key: "getInitialProps",
@@ -147,60 +180,27 @@ export var hoc = function hoc(WrappedComponent) {
           return _getInitialProps.apply(this, arguments);
         };
       }()
-    }]);
-
-    function ReactResponsiveNextHoc(props) {
-      var _this;
-
-      _classCallCheck(this, ReactResponsiveNextHoc);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(ReactResponsiveNextHoc).call(this, props));
-      ReactResponsiveNextHoc.mediaQueriesMatchers = [];
-      var config = _this.props.config;
-      var media = getMedia(config);
-
-      _Object$keys(media).forEach(function (type) {
-        var _media$type = media[type],
-            mediaQuery = _media$type.mediaQuery,
-            defaultWidth = _media$type.defaultWidth;
-        var matcher = matchMediaQuery(mediaQuery, {
-          width: ReactResponsiveNextHoc.getBrowserWidth()
-        });
-        ReactResponsiveNextHoc.mediaQueriesMatchers.push({
-          type: type,
-          matcher: matcher,
-          defaultWidth: defaultWidth
-        });
-      });
-
-      _this.state = {
-        env: {}
-      };
-      return _this;
-    }
-
-    _createClass(ReactResponsiveNextHoc, [{
-      key: "componentDidMount",
-      value: function componentDidMount() {
-        ReactResponsiveNextHoc.onResize();
-        this.onResizeHandler = debounce(ReactResponsiveNextHoc.onResize, 200);
-        window.addEventListener('resize', this.onResizeHandler, false);
-      }
     }, {
-      key: "componentWillUnmount",
-      value: function componentWillUnmount() {
-        if (this.onResizeHandler) {
-          window.removeEventListener('resize', this.onResizeHandler, false);
+      key: "getDefaultMediaWidthByType",
+      value: function getDefaultMediaWidthByType(mediaType) {
+        var media = getMedia(ReactResponsiveConnect.customConfig || defaultConfig);
+
+        if (media[mediaType]) {
+          return media[mediaType].defaultWidth;
         }
+
+        return media.desktop.defaultWidth;
       }
     }, {
-      key: "render",
-      value: function render() {
-        return React.createElement(WrappedComponent, _extends({}, this.state, this.props));
+      key: "getBrowserWidth",
+      value: function getBrowserWidth() {
+        if (process.browser) {
+          return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        }
+
+        return -1;
       }
     }]);
-
-    _inherits(ReactResponsiveNextHoc, _React$Component);
 
     return ReactResponsiveNextHoc;
   }(React.Component), _class.customConfig = null, _class.propTypes = {
@@ -209,7 +209,7 @@ export var hoc = function hoc(WrappedComponent) {
       devicesToBreakPoints: PropTypes.any
     })
   }, _class.defaultProps = {
-    config: hoc.customConfig || defaultConfig
+    config: ReactResponsiveConnect.customConfig || defaultConfig
   }, _temp;
 };
-//# sourceMappingURL=hoc.js.map
+//# sourceMappingURL=react-responsive-connect.js.map
