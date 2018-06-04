@@ -23,6 +23,8 @@ export var hoc = function hoc(WrappedComponent) {
     _createClass(ReactResponsiveNextHoc, null, [{
       key: "getBrowserWidth",
       value: function getBrowserWidth() {
+        console.log('HOC', 'getBrowserWidth');
+
         if (process.browser) {
           return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         }
@@ -32,11 +34,13 @@ export var hoc = function hoc(WrappedComponent) {
     }, {
       key: "onResize",
       value: function onResize() {
+        console.log('HOC', 'onResize');
         ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
       }
     }, {
       key: "updateDeviceTypeByViewportSize",
       value: function updateDeviceTypeByViewportSize() {
+        console.log('HOC', 'updateDeviceTypeByViewportSize');
         var detectedMedia = null;
         ReactResponsiveNextHoc.mediaQueriesMatchers.forEach(function (mediaItem) {
           if (mediaItem.matcher.matches) {
@@ -155,6 +159,7 @@ export var hoc = function hoc(WrappedComponent) {
       _classCallCheck(this, ReactResponsiveNextHoc);
 
       _this = _possibleConstructorReturn(this, _getPrototypeOf(ReactResponsiveNextHoc).call(this, props));
+      console.log('HOC', 'constructor', props);
       ReactResponsiveNextHoc.mediaQueriesMatchers = [];
       var config = _this.props.config;
       var media = getMedia(config);
@@ -182,6 +187,7 @@ export var hoc = function hoc(WrappedComponent) {
     _createClass(ReactResponsiveNextHoc, [{
       key: "componentDidMount",
       value: function componentDidMount() {
+        console.log('HOC', 'componentDidMount');
         ReactResponsiveNextHoc.onResize();
         this.onResizeHandler = debounce(ReactResponsiveNextHoc.onResize, 200);
         window.addEventListener('resize', this.onResizeHandler, false);
@@ -189,6 +195,8 @@ export var hoc = function hoc(WrappedComponent) {
     }, {
       key: "componentWillUnmount",
       value: function componentWillUnmount() {
+        console.log('HOC', 'componentWillUnmount');
+
         if (this.onResizeHandler) {
           window.removeEventListener('resize', this.onResizeHandler, false);
         }
@@ -196,6 +204,7 @@ export var hoc = function hoc(WrappedComponent) {
     }, {
       key: "render",
       value: function render() {
+        console.log('HOC', 'render');
         return React.createElement(WrappedComponent, _extends({}, this.state, this.props));
       }
     }]);
