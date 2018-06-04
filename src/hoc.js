@@ -26,6 +26,7 @@ export const hoc = WrappedComponent =>
     };
 
     static getBrowserWidth() {
+      console.log('HOC', 'getBrowserWidth');
       if (process.browser) {
         return window.innerWidth ||
           document.documentElement.clientWidth ||
@@ -35,10 +36,12 @@ export const hoc = WrappedComponent =>
     }
 
     static onResize() {
+      console.log('HOC', 'onResize');
       ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
     }
 
     static updateDeviceTypeByViewportSize() {
+      console.log('HOC', 'updateDeviceTypeByViewportSize');
       let detectedMedia = null;
       ReactResponsiveNextHoc.mediaQueriesMatchers.forEach((mediaItem) => {
         if (mediaItem.matcher.matches) {
@@ -105,6 +108,7 @@ export const hoc = WrappedComponent =>
 
     constructor(props) {
       super(props);
+      console.log('HOC', 'constructor', props);
       ReactResponsiveNextHoc.mediaQueriesMatchers = [];
       const { config } = this.props;
       const media = getMedia(config);
@@ -126,18 +130,21 @@ export const hoc = WrappedComponent =>
     }
 
     componentDidMount() {
+      console.log('HOC', 'componentDidMount');
       ReactResponsiveNextHoc.onResize();
       this.onResizeHandler = debounce(ReactResponsiveNextHoc.onResize, 200);
       window.addEventListener('resize', this.onResizeHandler, false);
     }
 
     componentWillUnmount() {
+      console.log('HOC', 'componentWillUnmount');
       if (this.onResizeHandler) {
         window.removeEventListener('resize', this.onResizeHandler, false);
       }
     }
 
     render() {
+      console.log('HOC', 'render');
       return <WrappedComponent {...this.state} {...this.props} />;
     }
   };
