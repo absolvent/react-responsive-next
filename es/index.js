@@ -1,4 +1,4 @@
 export { MediaQueryWrapper, responsiveWrapper, Show, Hide, PhoneScreen, PhoneAndTabletScreen, TabletScreen, TabletAndUpScreen, DesktopAndUpScreen } from './components';
 export { defaultConfig } from './default-config';
-export { hoc as ReactResponsiveConnect } from './hoc';
+export { ReactResponsiveConnect } from './react-responsive-connect';
 //# sourceMappingURL=index.js.map

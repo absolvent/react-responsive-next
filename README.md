@@ -1,4 +1,4 @@
-# react-responsive-next v0.8.1
+# react-responsive-next v0.8.2
 
 ## Project Idea
 Add a simple to use tool to detect user media and then serve content adapted to the browser size and the device.
@@ -58,6 +58,7 @@ class IndexPage extends React.PureComponent {
 
 export default ReactResponsiveConnect(IndexPage);
 ```
+
 Components can receive device alias that is passed by props for example:
 `<Show on={'sm'}>`
 

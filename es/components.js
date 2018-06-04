@@ -6,7 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 import { defaultConfig, TAG } from './default-config';
-import { hoc } from './hoc';
+import { ReactResponsiveConnect } from './react-responsive-connect';
 import { getMedia } from './media';
 import { getMediaMinWidthByType, getMediaMaxWidthByType, mediaQueryBuilder, isStringOrNumber, isString } from './helpers';
 export var MediaQueryWrapper = function MediaQueryWrapper() {
@@ -53,7 +53,7 @@ export var responsiveWrapper = function responsiveWrapper() {
 
 var generateShowHideComponent = function generateShowHideComponent(isHideComponent) {
   return function (props) {
-    var media = getMedia(hoc.customConfig || defaultConfig);
+    var media = getMedia(ReactResponsiveConnect.customConfig || defaultConfig);
     var on = props.on,
         from = props.from,
         to = props.to,
