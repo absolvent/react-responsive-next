@@ -1,5 +1,9 @@
 ## Change Log
 
+### v0.8.2
+- Fixed HOC ReactResponsiveConnect component name from hoc
+- Fixed methods order in react-responsive-connect
+
 ### v0.8.1
 - Rebuild of the current version
 
