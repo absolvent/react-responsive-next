@@ -24,8 +24,17 @@ export const ReactResponsiveConnect = WrappedComponent =>
           }
         }
       });
+      const previouslyDetectedMediaWidth = Cookies.load('detectedMediaWidth');
+
       Cookies.save('detectedMediaWidth', detectedMedia.defaultWidth, { secure: false });
       Cookies.save('detectedMediaType', detectedMedia.type, { secure: false });
+
+      if (!previouslyDetectedMediaWidth) {
+        const initialWidth = Cookies.load('initialMediaWidth');
+        if (initialWidth !== detectedMedia.defaultWidth) {
+          window.location.reload();
+        }
+      }
     }
 
     static propTypes = {
@@ -38,40 +47,6 @@ export const ReactResponsiveConnect = WrappedComponent =>
     static defaultProps = {
       config: ReactResponsiveConnect.customConfig || defaultConfig,
     };
-
-    constructor(props) {
-      super(props);
-      ReactResponsiveNextHoc.mediaQueriesMatchers = [];
-      const { config } = this.props;
-      const media = getMedia(config);
-
-      Object.keys(media).forEach((type) => {
-        const { mediaQuery, defaultWidth } = media[type];
-        const matcher = matchMediaQuery(mediaQuery, {
-          width: ReactResponsiveNextHoc.getBrowserWidth(),
-        });
-        ReactResponsiveNextHoc.mediaQueriesMatchers.push({
-          type,
-          matcher,
-          defaultWidth,
-        })
-      });
-      this.state = {
-        env: {},
-      };
-    }
-
-    componentDidMount() {
-      ReactResponsiveNextHoc.onResize();
-      this.onResizeHandler = debounce(ReactResponsiveNextHoc.onResize, 200);
-      window.addEventListener('resize', this.onResizeHandler, false);
-    }
-
-    componentWillUnmount() {
-      if (this.onResizeHandler) {
-        window.removeEventListener('resize', this.onResizeHandler, false);
-      }
-    }
 
     static onResize() {
       ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
@@ -93,11 +68,12 @@ export const ReactResponsiveConnect = WrappedComponent =>
             userAgentMediaType: detectedDevice.type,
             detectedMediaType: detectedMediaType || detectedDevice.type,
             detectedMediaWidth: detectedMediaWidth
-            || ReactResponsiveNextHoc.getDefaultMediaWidthByType(detectedDevice.type),
+              || ReactResponsiveNextHoc.getDefaultMediaWidthByType(detectedDevice.type),
             detectedMediaModel: detectedDevice.model || null,
           }
         };
         newProps.env = checkEnvironment(args.req);
+        args.res.cookie('initialMediaWidth', newProps.env.detectedMediaWidth, { maxAge: 60000, httpOnly: false });
       } else {
         newProps.env = {
           userAgentMediaType: null,
@@ -135,6 +111,42 @@ export const ReactResponsiveConnect = WrappedComponent =>
           document.body.clientWidth;
       }
       return -1;
+    }
+
+    constructor(props) {
+      super(props);
+
+      ReactResponsiveNextHoc.mediaQueriesMatchers = [];
+      const { config } = this.props;
+      const media = getMedia(config);
+
+      Object.keys(media).forEach((type) => {
+        const { mediaQuery, defaultWidth } = media[type];
+        const matcher = matchMediaQuery(mediaQuery, {
+          width: ReactResponsiveNextHoc.getBrowserWidth(),
+        });
+        ReactResponsiveNextHoc.mediaQueriesMatchers.push({
+          type,
+          matcher,
+          defaultWidth,
+        })
+      });
+
+      this.state = {
+        env: {},
+      };
+    }
+
+    componentDidMount() {
+      ReactResponsiveNextHoc.onResize();
+      this.onResizeHandler = debounce(ReactResponsiveNextHoc.onResize, 200);
+      window.addEventListener('resize', this.onResizeHandler, false);
+    }
+
+    componentWillUnmount() {
+      if (this.onResizeHandler) {
+        window.removeEventListener('resize', this.onResizeHandler, false);
+      }
     }
 
     render() {

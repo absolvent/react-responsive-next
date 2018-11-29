@@ -1,5 +1,4 @@
 import _Number$isNaN from "@babel/runtime/core-js/number/is-nan";
-import _objectSpread from "@babel/runtime/helpers/objectSpread";
 import _extends from "@babel/runtime/helpers/extends";
 import _objectWithoutProperties from "@babel/runtime/helpers/objectWithoutProperties";
 import React from 'react';
@@ -9,7 +8,8 @@ import { defaultConfig, TAG } from './default-config';
 import { ReactResponsiveConnect } from './react-responsive-connect';
 import { getMedia } from './media';
 import { getMediaMinWidthByType, getMediaMaxWidthByType, mediaQueryBuilder, isStringOrNumber, isString } from './helpers';
-export var MediaQueryWrapper = function MediaQueryWrapper() {
+
+var MediaQueryWrapper = function MediaQueryWrapper() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   var children = props.children,
@@ -30,6 +30,8 @@ export var MediaQueryWrapper = function MediaQueryWrapper() {
     return isInvertMatch ? children : null;
   });
 };
+
+export { MediaQueryWrapper };
 MediaQueryWrapper.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   component: PropTypes.oneOfType([PropTypes.node, PropTypes.func, PropTypes.string]),
@@ -47,7 +49,7 @@ MediaQueryWrapper.defaultProps = {
 export var responsiveWrapper = function responsiveWrapper() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   return function (p) {
-    return MediaQueryWrapper(_objectSpread({}, props, p));
+    return MediaQueryWrapper(_extends({}, props, p));
   };
 };
 
@@ -138,22 +140,29 @@ var propTypes = {
 };
 export var Show = generateShowHideComponent(false);
 Show.propTypes = propTypes;
+Show.displayName = 'Show';
 export var Hide = generateShowHideComponent(true);
 Hide.propTypes = propTypes;
+Hide.displayName = 'Hide';
 var defaultMedia = getMedia(defaultConfig);
 export var PhoneScreen = responsiveWrapper({
   query: defaultMedia.phone.mediaQuery
 });
+PhoneScreen.displayName = 'PhoneScreen';
 export var TabletScreen = responsiveWrapper({
   query: defaultMedia.tablet.mediaQuery
 });
+TabletScreen.displayName = 'TabletScreen';
 export var DesktopAndUpScreen = responsiveWrapper({
   query: defaultMedia.desktop.mediaQuery
 });
+DesktopAndUpScreen.displayName = 'DesktopAndUpScreen';
 export var PhoneAndTabletScreen = responsiveWrapper({
   query: "(max-width: ".concat(defaultMedia.tablet.maxWidth, "px)")
 });
+PhoneAndTabletScreen.displayName = 'PhoneAndTabletScreen';
 export var TabletAndUpScreen = responsiveWrapper({
   query: "(min-width: ".concat(defaultMedia.tablet.minWidth, "px)")
 });
+TabletAndUpScreen.displayName = 'TabletAndUpScreen';
 //# sourceMappingURL=components.js.map
