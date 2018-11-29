@@ -39,40 +39,6 @@ export const ReactResponsiveConnect = WrappedComponent =>
       config: ReactResponsiveConnect.customConfig || defaultConfig,
     };
 
-    constructor(props) {
-      super(props);
-      ReactResponsiveNextHoc.mediaQueriesMatchers = [];
-      const { config } = this.props;
-      const media = getMedia(config);
-
-      Object.keys(media).forEach((type) => {
-        const { mediaQuery, defaultWidth } = media[type];
-        const matcher = matchMediaQuery(mediaQuery, {
-          width: ReactResponsiveNextHoc.getBrowserWidth(),
-        });
-        ReactResponsiveNextHoc.mediaQueriesMatchers.push({
-          type,
-          matcher,
-          defaultWidth,
-        })
-      });
-      this.state = {
-        env: {},
-      };
-    }
-
-    componentDidMount() {
-      ReactResponsiveNextHoc.onResize();
-      this.onResizeHandler = debounce(ReactResponsiveNextHoc.onResize, 200);
-      window.addEventListener('resize', this.onResizeHandler, false);
-    }
-
-    componentWillUnmount() {
-      if (this.onResizeHandler) {
-        window.removeEventListener('resize', this.onResizeHandler, false);
-      }
-    }
-
     static onResize() {
       ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
     }
@@ -135,6 +101,40 @@ export const ReactResponsiveConnect = WrappedComponent =>
           document.body.clientWidth;
       }
       return -1;
+    }
+
+    constructor(props) {
+      super(props);
+      ReactResponsiveNextHoc.mediaQueriesMatchers = [];
+      const { config } = this.props;
+      const media = getMedia(config);
+
+      Object.keys(media).forEach((type) => {
+        const { mediaQuery, defaultWidth } = media[type];
+        const matcher = matchMediaQuery(mediaQuery, {
+          width: ReactResponsiveNextHoc.getBrowserWidth(),
+        });
+        ReactResponsiveNextHoc.mediaQueriesMatchers.push({
+          type,
+          matcher,
+          defaultWidth,
+        })
+      });
+      this.state = {
+        env: {},
+      };
+    }
+
+    componentDidMount() {
+      ReactResponsiveNextHoc.onResize();
+      this.onResizeHandler = debounce(ReactResponsiveNextHoc.onResize, 200);
+      window.addEventListener('resize', this.onResizeHandler, false);
+    }
+
+    componentWillUnmount() {
+      if (this.onResizeHandler) {
+        window.removeEventListener('resize', this.onResizeHandler, false);
+      }
     }
 
     render() {
