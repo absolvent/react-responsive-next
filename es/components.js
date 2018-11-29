@@ -1,9 +1,9 @@
-import _Number$isNaN from "@babel/runtime/core-js/number/is-nan";
 import _extends from "@babel/runtime/helpers/extends";
 import _objectWithoutProperties from "@babel/runtime/helpers/objectWithoutProperties";
 import React from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
+import isNaN from 'lodash/isNaN';
 import { defaultConfig, TAG } from './default-config';
 import { ReactResponsiveConnect } from './react-responsive-connect';
 import { getMedia } from './media';
@@ -60,8 +60,8 @@ var generateShowHideComponent = function generateShowHideComponent(isHideCompone
         from = props.from,
         to = props.to,
         children = props.children;
-    var fromValue = _Number$isNaN(Number(from)) ? getMediaMinWidthByType(from, media) : from;
-    var toValue = _Number$isNaN(Number(to)) ? getMediaMaxWidthByType(to, media) : to;
+    var fromValue = isNaN(Number(from)) ? getMediaMinWidthByType(from, media) : from;
+    var toValue = isNaN(Number(to)) ? getMediaMaxWidthByType(to, media) : to;
 
     if (on) {
       if (media[on]) {
