@@ -77,6 +77,7 @@
     "@babel/runtime": "^7.0.0-beta.35",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "cookies-js": "^1.2.3",
+    "core-js": "^2.5.7",
     "device": "^0.3.9",
     "isomorphic-cookie": "^1.2.4",
     "lodash.debounce": "^4.0.8",
