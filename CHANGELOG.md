@@ -1,5 +1,8 @@
 ## Change Log
 
+### v0.9.2
+- Switched to lodash isNaN
+
 ### v0.9.1
 - Added missing dependency
 
