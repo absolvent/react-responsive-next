@@ -32,12 +32,21 @@ export var ReactResponsiveConnect = function ReactResponsiveConnect(WrappedCompo
             }
           }
         });
+        var previouslyDetectedMediaWidth = Cookies.load('detectedMediaWidth');
         Cookies.save('detectedMediaWidth', detectedMedia.defaultWidth, {
           secure: false
         });
         Cookies.save('detectedMediaType', detectedMedia.type, {
           secure: false
         });
+
+        if (!previouslyDetectedMediaWidth) {
+          var initialWidth = Cookies.load('initialMediaWidth');
+
+          if (initialWidth !== detectedMedia.defaultWidth) {
+            window.location.reload();
+          }
+        }
       }
     }, {
       key: "onResize",
@@ -86,6 +95,10 @@ export var ReactResponsiveConnect = function ReactResponsiveConnect(WrappedCompo
                     };
 
                     newProps.env = checkEnvironment(args.req);
+                    args.res.cookie('initialMediaWidth', newProps.env.detectedMediaWidth, {
+                      maxAge: 60000,
+                      httpOnly: false
+                    });
                   } else {
                     newProps.env = {
                       userAgentMediaType: null,

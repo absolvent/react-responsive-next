@@ -6,7 +6,7 @@ import { ReactResponsiveConnect } from './react-responsive-connect';
 import { getMedia } from './media'
 import { getMediaMinWidthByType, getMediaMaxWidthByType, mediaQueryBuilder, isStringOrNumber, isString } from './helpers'
 
-export const MediaQueryWrapper = (props = {}) => {
+export function MediaQueryWrapper(props = {}) {
   // eslint-disable-next-line no-unused-vars
   const { children, isInvertMatch,  ...other } = props;
   const values = { deviceWidth: MediaQueryWrapper.fakeWidth, width: MediaQueryWrapper.fakeWidth };
@@ -20,7 +20,7 @@ export const MediaQueryWrapper = (props = {}) => {
       }}
     </MediaQuery>
   )
-};
+}
 
 MediaQueryWrapper.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
@@ -54,33 +54,37 @@ const generateShowHideComponent = isHideComponent => (props) => {
 
   if (on) {
     if (media[on]) {
-      return MediaQueryWrapper({
+      const ReactResponsiveNext = MediaQueryWrapper({
         query: media[on].mediaQuery,
         isInvertMatch: isHideComponent,
         children,
       });
+      return ReactResponsiveNext;
     }
     throw new Error(`${TAG} No ${on} definition in media configuration`);
   }
 
   if (from !== undefined && to !== undefined) {
-    return MediaQueryWrapper({
+    const ReactResponsiveNext = MediaQueryWrapper({
       query: mediaQueryBuilder(fromValue, toValue),
       isInvertMatch: isHideComponent,
       children,
     });
+    return ReactResponsiveNext;
   } else if (from !== undefined) {
-    return MediaQueryWrapper({
+    const ReactResponsiveNext = MediaQueryWrapper({
       query: mediaQueryBuilder(fromValue, undefined),
       isInvertMatch: isHideComponent,
       children,
     });
+    return ReactResponsiveNext;
   } else if (to !== undefined) {
-    return MediaQueryWrapper({
+    const ReactResponsiveNext = MediaQueryWrapper({
       query: mediaQueryBuilder(undefined, toValue),
       isInvertMatch: isHideComponent,
       children,
     });
+    return ReactResponsiveNext;
   }
   return null;
 };
@@ -116,15 +120,23 @@ const propTypes = {
 
 export const Show = generateShowHideComponent(false);
 Show.propTypes = propTypes;
+Show.displayName = 'Show';
 
 export const Hide = generateShowHideComponent(true);
 Hide.propTypes = propTypes;
+Hide.displayName = 'Hide';
+
 
 // Legacy for versions < 0.8.0
 // WARNING: Works only with the default config
 const defaultMedia = getMedia(defaultConfig);
 export const PhoneScreen = responsiveWrapper({ query: defaultMedia.phone.mediaQuery });
+PhoneScreen.displayName = 'PhoneScreen';
 export const TabletScreen = responsiveWrapper({ query: defaultMedia.tablet.mediaQuery });
+TabletScreen.displayName = 'TabletScreen';
 export const DesktopAndUpScreen = responsiveWrapper({ query: defaultMedia.desktop.mediaQuery });
+DesktopAndUpScreen.displayName = 'DesktopAndUpScreen';
 export const PhoneAndTabletScreen = responsiveWrapper({ query: `(max-width: ${defaultMedia.tablet.maxWidth}px)` });
+PhoneAndTabletScreen.displayName = 'PhoneAndTabletScreen';
 export const TabletAndUpScreen = responsiveWrapper({ query: `(min-width: ${defaultMedia.tablet.minWidth}px)` });
+TabletAndUpScreen.displayName = 'TabletAndUpScreen';

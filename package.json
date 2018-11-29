@@ -66,6 +66,7 @@
     "eslint-plugin-react": "^7.3.0",
     "eslint-plugin-unicorn": "^3.0.1",
     "github-changes": "^1.1.0",
+    "jest": "^23.1.0",
     "prop-types": "^15.6.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",

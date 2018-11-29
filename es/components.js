@@ -8,8 +8,7 @@ import { defaultConfig, TAG } from './default-config';
 import { ReactResponsiveConnect } from './react-responsive-connect';
 import { getMedia } from './media';
 import { getMediaMinWidthByType, getMediaMaxWidthByType, mediaQueryBuilder, isStringOrNumber, isString } from './helpers';
-
-var MediaQueryWrapper = function MediaQueryWrapper() {
+export function MediaQueryWrapper() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   var children = props.children,
@@ -29,9 +28,7 @@ var MediaQueryWrapper = function MediaQueryWrapper() {
 
     return isInvertMatch ? children : null;
   });
-};
-
-export { MediaQueryWrapper };
+}
 MediaQueryWrapper.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   component: PropTypes.oneOfType([PropTypes.node, PropTypes.func, PropTypes.string]),
@@ -65,34 +62,41 @@ var generateShowHideComponent = function generateShowHideComponent(isHideCompone
 
     if (on) {
       if (media[on]) {
-        return MediaQueryWrapper({
+        var ReactResponsiveNext = MediaQueryWrapper({
           query: media[on].mediaQuery,
           isInvertMatch: isHideComponent,
           children: children
         });
+        return ReactResponsiveNext;
       }
 
       throw new Error("".concat(TAG, " No ").concat(on, " definition in media configuration"));
     }
 
     if (from !== undefined && to !== undefined) {
-      return MediaQueryWrapper({
+      var _ReactResponsiveNext = MediaQueryWrapper({
         query: mediaQueryBuilder(fromValue, toValue),
         isInvertMatch: isHideComponent,
         children: children
       });
+
+      return _ReactResponsiveNext;
     } else if (from !== undefined) {
-      return MediaQueryWrapper({
+      var _ReactResponsiveNext2 = MediaQueryWrapper({
         query: mediaQueryBuilder(fromValue, undefined),
         isInvertMatch: isHideComponent,
         children: children
       });
+
+      return _ReactResponsiveNext2;
     } else if (to !== undefined) {
-      return MediaQueryWrapper({
+      var _ReactResponsiveNext3 = MediaQueryWrapper({
         query: mediaQueryBuilder(undefined, toValue),
         isInvertMatch: isHideComponent,
         children: children
       });
+
+      return _ReactResponsiveNext3;
     }
 
     return null;
@@ -140,22 +144,29 @@ var propTypes = {
 };
 export var Show = generateShowHideComponent(false);
 Show.propTypes = propTypes;
+Show.displayName = 'Show';
 export var Hide = generateShowHideComponent(true);
 Hide.propTypes = propTypes;
+Hide.displayName = 'Hide';
 var defaultMedia = getMedia(defaultConfig);
 export var PhoneScreen = responsiveWrapper({
   query: defaultMedia.phone.mediaQuery
 });
+PhoneScreen.displayName = 'PhoneScreen';
 export var TabletScreen = responsiveWrapper({
   query: defaultMedia.tablet.mediaQuery
 });
+TabletScreen.displayName = 'TabletScreen';
 export var DesktopAndUpScreen = responsiveWrapper({
   query: defaultMedia.desktop.mediaQuery
 });
+DesktopAndUpScreen.displayName = 'DesktopAndUpScreen';
 export var PhoneAndTabletScreen = responsiveWrapper({
   query: "(max-width: ".concat(defaultMedia.tablet.maxWidth, "px)")
 });
+PhoneAndTabletScreen.displayName = 'PhoneAndTabletScreen';
 export var TabletAndUpScreen = responsiveWrapper({
   query: "(min-width: ".concat(defaultMedia.tablet.minWidth, "px)")
 });
+TabletAndUpScreen.displayName = 'TabletAndUpScreen';
 //# sourceMappingURL=components.js.map

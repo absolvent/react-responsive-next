@@ -24,8 +24,17 @@ export const ReactResponsiveConnect = WrappedComponent =>
           }
         }
       });
+      const previouslyDetectedMediaWidth = Cookies.load('detectedMediaWidth');
+
       Cookies.save('detectedMediaWidth', detectedMedia.defaultWidth, { secure: false });
       Cookies.save('detectedMediaType', detectedMedia.type, { secure: false });
+
+      if (!previouslyDetectedMediaWidth) {
+        const initialWidth = Cookies.load('initialMediaWidth');
+        if (initialWidth !== detectedMedia.defaultWidth) {
+          window.location.reload();
+        }
+      }
     }
 
     static propTypes = {
@@ -59,11 +68,12 @@ export const ReactResponsiveConnect = WrappedComponent =>
             userAgentMediaType: detectedDevice.type,
             detectedMediaType: detectedMediaType || detectedDevice.type,
             detectedMediaWidth: detectedMediaWidth
-            || ReactResponsiveNextHoc.getDefaultMediaWidthByType(detectedDevice.type),
+              || ReactResponsiveNextHoc.getDefaultMediaWidthByType(detectedDevice.type),
             detectedMediaModel: detectedDevice.model || null,
           }
         };
         newProps.env = checkEnvironment(args.req);
+        args.res.cookie('initialMediaWidth', newProps.env.detectedMediaWidth, { maxAge: 60000, httpOnly: false });
       } else {
         newProps.env = {
           userAgentMediaType: null,
