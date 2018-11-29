@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import MediaQuery from 'react-responsive'
+import isNaN from 'lodash/isNaN';
 import { defaultConfig, TAG } from './default-config'
 import { ReactResponsiveConnect } from './react-responsive-connect';
 import { getMedia } from './media'
@@ -49,8 +50,8 @@ const generateShowHideComponent = isHideComponent => (props) => {
     to,
     children,
   } = props;
-  const fromValue = Number.isNaN(Number(from)) ? getMediaMinWidthByType(from, media) : from;
-  const toValue = Number.isNaN(Number(to)) ? getMediaMaxWidthByType(to, media) : to;
+  const fromValue = isNaN(Number(from)) ? getMediaMinWidthByType(from, media) : from;
+  const toValue = isNaN(Number(to)) ? getMediaMaxWidthByType(to, media) : to;
 
   if (on) {
     if (media[on]) {
