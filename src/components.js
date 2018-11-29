@@ -116,15 +116,23 @@ const propTypes = {
 
 export const Show = generateShowHideComponent(false);
 Show.propTypes = propTypes;
+Show.displayName = 'Show';
 
 export const Hide = generateShowHideComponent(true);
 Hide.propTypes = propTypes;
+Hide.displayName = 'Hide';
+
 
 // Legacy for versions < 0.8.0
 // WARNING: Works only with the default config
 const defaultMedia = getMedia(defaultConfig);
 export const PhoneScreen = responsiveWrapper({ query: defaultMedia.phone.mediaQuery });
+PhoneScreen.displayName = 'PhoneScreen';
 export const TabletScreen = responsiveWrapper({ query: defaultMedia.tablet.mediaQuery });
+TabletScreen.displayName = 'TabletScreen';
 export const DesktopAndUpScreen = responsiveWrapper({ query: defaultMedia.desktop.mediaQuery });
+DesktopAndUpScreen.displayName = 'DesktopAndUpScreen';
 export const PhoneAndTabletScreen = responsiveWrapper({ query: `(max-width: ${defaultMedia.tablet.maxWidth}px)` });
+PhoneAndTabletScreen.displayName = 'PhoneAndTabletScreen';
 export const TabletAndUpScreen = responsiveWrapper({ query: `(min-width: ${defaultMedia.tablet.minWidth}px)` });
+TabletAndUpScreen.displayName = 'TabletAndUpScreen';
