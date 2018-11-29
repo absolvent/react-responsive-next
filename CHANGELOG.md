@@ -1,5 +1,8 @@
 ## Change Log
 
+### v0.9.1
+- Added missing dependency
+
 ### v0.9.0
 - Added page reload if detected width is different from a default device width
 - Fixed component names for the inspector
