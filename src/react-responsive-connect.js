@@ -52,6 +52,19 @@ export const ReactResponsiveConnect = WrappedComponent =>
       ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
     }
 
+    static onBeforeUnload() {
+      ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
+    }
+
+    static reloadPageIfIncorrectWidthDetected() {
+      const previouslyDetectedMediaWidth = Cookies.load('detectedMediaWidth');
+      ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
+      const detectedMediaWidth = Cookies.load('detectedMediaWidth');
+      if (detectedMediaWidth !== previouslyDetectedMediaWidth) {
+        window.location.reload();
+      }
+    }
+
     static async getInitialProps(args = {}) {
       let newProps = {
         env: {},
@@ -138,9 +151,11 @@ export const ReactResponsiveConnect = WrappedComponent =>
     }
 
     componentDidMount() {
-      ReactResponsiveNextHoc.onResize();
       this.onResizeHandler = debounce(ReactResponsiveNextHoc.onResize, 200);
       window.addEventListener('resize', this.onResizeHandler, false);
+      window.addEventListener('beforeunload', ReactResponsiveNextHoc.onBeforeUnload, false);
+
+      ReactResponsiveNextHoc.reloadPageIfIncorrectWidthDetected()
     }
 
     componentWillUnmount() {

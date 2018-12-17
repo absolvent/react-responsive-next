@@ -54,6 +54,22 @@ export var ReactResponsiveConnect = function ReactResponsiveConnect(WrappedCompo
         ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
       }
     }, {
+      key: "onBeforeUnload",
+      value: function onBeforeUnload() {
+        ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
+      }
+    }, {
+      key: "reloadPageIfIncorrectWidthDetected",
+      value: function reloadPageIfIncorrectWidthDetected() {
+        var previouslyDetectedMediaWidth = Cookies.load('detectedMediaWidth');
+        ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
+        var detectedMediaWidth = Cookies.load('detectedMediaWidth');
+
+        if (detectedMediaWidth !== previouslyDetectedMediaWidth) {
+          window.location.reload();
+        }
+      }
+    }, {
       key: "getInitialProps",
       value: function () {
         var _getInitialProps = _asyncToGenerator(_regeneratorRuntime.mark(function _callee() {
@@ -196,9 +212,10 @@ export var ReactResponsiveConnect = function ReactResponsiveConnect(WrappedCompo
     _createClass(ReactResponsiveNextHoc, [{
       key: "componentDidMount",
       value: function componentDidMount() {
-        ReactResponsiveNextHoc.onResize();
         this.onResizeHandler = debounce(ReactResponsiveNextHoc.onResize, 200);
         window.addEventListener('resize', this.onResizeHandler, false);
+        window.addEventListener('beforeunload', ReactResponsiveNextHoc.onBeforeUnload, false);
+        ReactResponsiveNextHoc.reloadPageIfIncorrectWidthDetected();
       }
     }, {
       key: "componentWillUnmount",
