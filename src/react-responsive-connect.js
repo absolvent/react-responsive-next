@@ -34,8 +34,6 @@ export const ReactResponsiveConnect = WrappedComponent =>
         if (initialWidth !== detectedMedia.defaultWidth) {
           window.location.reload();
         }
-      } else if (previouslyDetectedMediaWidth !== detectedMedia.defaultWidth) {
-        window.location.reload();
       }
     }
 
@@ -56,6 +54,15 @@ export const ReactResponsiveConnect = WrappedComponent =>
 
     static onBeforeUnload() {
       ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
+    }
+
+    static reloadPageIfIncorrectWidthDetected() {
+      const previouslyDetectedMediaWidth = Cookies.load('detectedMediaWidth');
+      ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
+      const detectedMediaWidth = Cookies.load('detectedMediaWidth');
+      if (detectedMediaWidth !== previouslyDetectedMediaWidth) {
+        window.location.reload();
+      }
     }
 
     static async getInitialProps(args = {}) {
@@ -144,10 +151,11 @@ export const ReactResponsiveConnect = WrappedComponent =>
     }
 
     componentDidMount() {
-      ReactResponsiveNextHoc.onResize();
       this.onResizeHandler = debounce(ReactResponsiveNextHoc.onResize, 200);
       window.addEventListener('resize', this.onResizeHandler, false);
       window.addEventListener('beforeunload', ReactResponsiveNextHoc.onBeforeUnload, false);
+
+      ReactResponsiveNextHoc.reloadPageIfIncorrectWidthDetected()
     }
 
     componentWillUnmount() {
