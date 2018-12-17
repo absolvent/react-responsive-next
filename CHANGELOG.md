@@ -1,5 +1,9 @@
 ## Change Log
 
+### v0.10.0
+- Added measuring screen size BeforeUnload event
+- Added reloading page if detected size is different than previously measured.
+
 ### v0.9.2
 - Switched to lodash isNaN
 
