@@ -34,6 +34,8 @@ export const ReactResponsiveConnect = WrappedComponent =>
         if (initialWidth !== detectedMedia.defaultWidth) {
           window.location.reload();
         }
+      } else if (previouslyDetectedMediaWidth !== detectedMedia.defaultWidth) {
+        window.location.reload();
       }
     }
 
@@ -49,6 +51,10 @@ export const ReactResponsiveConnect = WrappedComponent =>
     };
 
     static onResize() {
+      ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
+    }
+
+    static onBeforeUnload() {
       ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
     }
 
@@ -141,6 +147,7 @@ export const ReactResponsiveConnect = WrappedComponent =>
       ReactResponsiveNextHoc.onResize();
       this.onResizeHandler = debounce(ReactResponsiveNextHoc.onResize, 200);
       window.addEventListener('resize', this.onResizeHandler, false);
+      window.addEventListener('beforeunload', ReactResponsiveNextHoc.onBeforeUnload, false);
     }
 
     componentWillUnmount() {
