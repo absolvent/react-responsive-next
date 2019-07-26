@@ -23,6 +23,7 @@ var MediaQueryWrapper = function MediaQueryWrapper() {
   return React.createElement(MediaQuery, _extends({}, other, {
     values: values
   }), function (matches) {
+    console.log('ShowComponent es', matches, props.query);
     if (matches) {
       return isInvertMatch ? null : children;
     }
