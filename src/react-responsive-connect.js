@@ -105,7 +105,13 @@ export const ReactResponsiveConnect = WrappedComponent =>
           ...await WrappedComponent.getInitialProps(newArgs),
         };
       }
-      MediaQueryWrapper.fakeWidth = newProps.env.detectedMediaWidth;
+      if (process.browser) {
+        MediaQueryWrapper.fakeWidth = newProps.env.detectedMediaWidth;
+      } else {
+        const contextService = require('request-context');
+        contextService.set('request:responsive', newProps.env);
+      }
+
       return newProps;
     }
 

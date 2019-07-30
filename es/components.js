@@ -11,15 +11,26 @@ import { getMediaMinWidthByType, getMediaMaxWidthByType, mediaQueryBuilder, isSt
 
 var MediaQueryWrapper = function MediaQueryWrapper() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var values = {
+    deviceWidth: 1,
+    width: 1
+  };
 
   var children = props.children,
       isInvertMatch = props.isInvertMatch,
       other = _objectWithoutProperties(props, ["children", "isInvertMatch"]);
 
-  var values = {
-    deviceWidth: MediaQueryWrapper.fakeWidth,
-    width: MediaQueryWrapper.fakeWidth
-  };
+  if (process.browser) {
+    values.deviceWidth = MediaQueryWrapper.fakeWidth;
+    values.width = MediaQueryWrapper.fakeWidth;
+  } else {
+    var contextService = require('request-context');
+
+    var width = contextService.get('request:responsive.detectedMediaWidth');
+    values.deviceWidth = width;
+    values.width = width;
+  }
+
   return React.createElement(MediaQuery, _extends({}, other, {
     values: values
   }), function (matches) {

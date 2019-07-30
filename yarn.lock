@@ -3245,6 +3245,11 @@ repeating@^2.0.0:
   dependencies:
     is-finite "^1.0.0"
 
+request-context@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/request-context/-/request-context-2.0.0.tgz#86017884cc9574d81fb23dcbc6c22c2b2520f1d0"
+  integrity sha1-hgF4hMyVdNgfsj3LxsIsKyUg8dA=
+
 request@2.81.0:
   version "2.81.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.81.0.tgz#c6928946a0e06c5f8d6f8a9333469ffda46298a0"
