@@ -7,3 +7,5 @@ export {
 } from './components'
 export { defaultConfig } from './default-config';
 export { ReactResponsiveConnect } from './react-responsive-connect';
+export const ContextServiceMiddleware = process.browser ? () => {} : require('request-context').middleware('request');
+

@@ -9,8 +9,19 @@ import { getMediaMinWidthByType, getMediaMaxWidthByType, mediaQueryBuilder, isSt
 
 export const MediaQueryWrapper = (props = {}) => {
   // eslint-disable-next-line no-unused-vars
+  const values = { deviceWidth: 1, width: 1 };
   const { children, isInvertMatch,  ...other } = props;
-  const values = { deviceWidth: MediaQueryWrapper.fakeWidth, width: MediaQueryWrapper.fakeWidth };
+
+  if (process.browser) {
+    values.deviceWidth = MediaQueryWrapper.fakeWidth;
+    values.width = MediaQueryWrapper.fakeWidth;
+  } else {
+    const contextService = require('request-context');
+    const width = contextService.get('request:responsive.detectedMediaWidth');
+    values.deviceWidth = width;
+    values.width = width;
+  }
+
   return (
     <MediaQuery {...other} {...{ values }} >
       {(matches) => {

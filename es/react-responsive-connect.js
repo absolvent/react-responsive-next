@@ -80,6 +80,7 @@ export var ReactResponsiveConnect = function ReactResponsiveConnect(WrappedCompo
               detectedMediaWidth,
               checkEnvironment,
               newArgs,
+              contextService,
               _args = arguments;
           return _regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
@@ -142,7 +143,13 @@ export var ReactResponsiveConnect = function ReactResponsiveConnect(WrappedCompo
                   newProps = (0, _context.t0)(_context.t1, _context.t2, _context.t3);
 
                 case 12:
-                  MediaQueryWrapper.fakeWidth = newProps.env.detectedMediaWidth;
+                  if (process.browser) {
+                    MediaQueryWrapper.fakeWidth = newProps.env.detectedMediaWidth;
+                  } else {
+                    contextService = require('request-context');
+                    contextService.set('request:responsive', newProps.env);
+                  }
+
                   return _context.abrupt("return", newProps);
 
                 case 14:
