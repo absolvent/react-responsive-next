@@ -1,5 +1,8 @@
 ## Change Log
 
+### v0.11.0
+- Added a request context to keep detected width on a server side.
+
 ### v0.10.0
 - Added measuring screen size BeforeUnload event
 - Added reloading page if detected size is different than previously measured.
