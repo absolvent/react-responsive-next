@@ -24,13 +24,13 @@ export const ReactResponsiveConnect = WrappedComponent =>
           }
         }
       });
-      const previouslyDetectedMediaWidth = Cookies.load('detectedMediaWidth');
+      const previouslyDetectedMediaWidth = Cookies.load('detectedMediaWidth') || null;
 
       Cookies.save('detectedMediaWidth', detectedMedia.defaultWidth, { secure: false });
       Cookies.save('detectedMediaType', detectedMedia.type, { secure: false });
 
       if (!previouslyDetectedMediaWidth) {
-        const initialWidth = Cookies.load('initialMediaWidth');
+        const initialWidth = Cookies.load('initialMediaWidth') || null;
         if (initialWidth !== detectedMedia.defaultWidth) {
           window.location.reload();
         }
@@ -57,10 +57,10 @@ export const ReactResponsiveConnect = WrappedComponent =>
     }
 
     static reloadPageIfIncorrectWidthDetected() {
-      const previouslyDetectedMediaWidth = Cookies.load('detectedMediaWidth');
+      const previouslyDetectedMediaWidth = Cookies.load('detectedMediaWidth') || null;
       ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
       const detectedMediaWidth = Cookies.load('detectedMediaWidth');
-      if (detectedMediaWidth !== previouslyDetectedMediaWidth) {
+      if (previouslyDetectedMediaWidth && (detectedMediaWidth !== previouslyDetectedMediaWidth)) {
         window.location.reload();
       }
     }

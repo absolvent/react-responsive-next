@@ -1,5 +1,8 @@
 ## Change Log
 
+### v0.11.1
+- Fixed reloading page if previous detected size is not exist 
+
 ### v0.11.0
 - Added a request context to keep detected width on a server side.
 
