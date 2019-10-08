@@ -32,7 +32,7 @@ export var ReactResponsiveConnect = function ReactResponsiveConnect(WrappedCompo
             }
           }
         });
-        var previouslyDetectedMediaWidth = Cookies.load('detectedMediaWidth');
+        var previouslyDetectedMediaWidth = Cookies.load('detectedMediaWidth') || null;
         Cookies.save('detectedMediaWidth', detectedMedia.defaultWidth, {
           secure: false
         });
@@ -41,7 +41,7 @@ export var ReactResponsiveConnect = function ReactResponsiveConnect(WrappedCompo
         });
 
         if (!previouslyDetectedMediaWidth) {
-          var initialWidth = Cookies.load('initialMediaWidth');
+          var initialWidth = Cookies.load('initialMediaWidth') || null;
 
           if (initialWidth !== detectedMedia.defaultWidth) {
             window.location.reload();
@@ -61,11 +61,11 @@ export var ReactResponsiveConnect = function ReactResponsiveConnect(WrappedCompo
     }, {
       key: "reloadPageIfIncorrectWidthDetected",
       value: function reloadPageIfIncorrectWidthDetected() {
-        var previouslyDetectedMediaWidth = Cookies.load('detectedMediaWidth');
+        var previouslyDetectedMediaWidth = Cookies.load('detectedMediaWidth') || null;
         ReactResponsiveNextHoc.updateDeviceTypeByViewportSize();
         var detectedMediaWidth = Cookies.load('detectedMediaWidth');
 
-        if (detectedMediaWidth !== previouslyDetectedMediaWidth) {
+        if (previouslyDetectedMediaWidth && detectedMediaWidth !== previouslyDetectedMediaWidth) {
           window.location.reload();
         }
       }
