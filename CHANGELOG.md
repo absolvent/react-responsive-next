@@ -1,5 +1,9 @@
 ## Change Log
 
+### v0.12.0
+- Upgrade broken dependencies,
+- Rebuild with newer core-js version.
+
 ### v0.11.1
 - Fixed reloading page if previous detected size is not exist 
 
