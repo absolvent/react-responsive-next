@@ -1,12 +1,21 @@
-import _Object$keys from "@babel/runtime/core-js/object/keys";
-import _Object$getPrototypeOf from "@babel/runtime/core-js/object/get-prototype-of";
-import _regeneratorRuntime from "@babel/runtime/regenerator";
 import _extends from "@babel/runtime/helpers/extends";
+import _regeneratorRuntime from "@babel/runtime/regenerator";
+import _defineProperty from "@babel/runtime/helpers/defineProperty";
 import _asyncToGenerator from "@babel/runtime/helpers/asyncToGenerator";
 import _classCallCheck from "@babel/runtime/helpers/classCallCheck";
-import _possibleConstructorReturn from "@babel/runtime/helpers/possibleConstructorReturn";
 import _createClass from "@babel/runtime/helpers/createClass";
 import _inherits from "@babel/runtime/helpers/inherits";
+import _possibleConstructorReturn from "@babel/runtime/helpers/possibleConstructorReturn";
+import _getPrototypeOf from "@babel/runtime/helpers/getPrototypeOf";
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 import debounce from 'lodash.debounce';
 import matchMediaQuery from 'matchmediaquery';
 import PropTypes from 'prop-types';
@@ -20,6 +29,8 @@ export var ReactResponsiveConnect = function ReactResponsiveConnect(WrappedCompo
 
   return _temp = _class = function (_React$Component) {
     _inherits(ReactResponsiveNextHoc, _React$Component);
+
+    var _super = _createSuper(ReactResponsiveNextHoc);
 
     _createClass(ReactResponsiveNextHoc, null, [{
       key: "updateDeviceTypeByViewportSize",
@@ -125,24 +136,23 @@ export var ReactResponsiveConnect = function ReactResponsiveConnect(WrappedCompo
                     };
                   }
 
-                  newArgs = _extends({}, args, newProps);
+                  newArgs = _objectSpread(_objectSpread({}, args), newProps);
 
                   if (!WrappedComponent.getInitialProps) {
-                    _context.next = 12;
+                    _context.next = 11;
                     break;
                   }
 
-                  _context.t0 = _extends;
-                  _context.t1 = {};
-                  _context.t2 = newProps;
-                  _context.next = 10;
+                  _context.t0 = _objectSpread;
+                  _context.t1 = _objectSpread({}, newProps);
+                  _context.next = 9;
                   return WrappedComponent.getInitialProps(newArgs);
 
-                case 10:
-                  _context.t3 = _context.sent;
-                  newProps = (0, _context.t0)(_context.t1, _context.t2, _context.t3);
+                case 9:
+                  _context.t2 = _context.sent;
+                  newProps = (0, _context.t0)(_context.t1, _context.t2);
 
-                case 12:
+                case 11:
                   if (process.browser) {
                     MediaQueryWrapper.fakeWidth = newProps.env.detectedMediaWidth;
                   } else {
@@ -152,17 +162,19 @@ export var ReactResponsiveConnect = function ReactResponsiveConnect(WrappedCompo
 
                   return _context.abrupt("return", newProps);
 
-                case 14:
+                case 13:
                 case "end":
                   return _context.stop();
               }
             }
-          }, _callee, this);
+          }, _callee);
         }));
 
-        return function getInitialProps() {
+        function getInitialProps() {
           return _getInitialProps.apply(this, arguments);
-        };
+        }
+
+        return getInitialProps;
       }()
     }, {
       key: "getDefaultMediaWidthByType",
@@ -191,12 +203,11 @@ export var ReactResponsiveConnect = function ReactResponsiveConnect(WrappedCompo
 
       _classCallCheck(this, ReactResponsiveNextHoc);
 
-      _this = _possibleConstructorReturn(this, (ReactResponsiveNextHoc.__proto__ || _Object$getPrototypeOf(ReactResponsiveNextHoc)).call(this, props));
+      _this = _super.call(this, props);
       ReactResponsiveNextHoc.mediaQueriesMatchers = [];
       var config = _this.props.config;
       var media = getMedia(config);
-
-      _Object$keys(media).forEach(function (type) {
+      Object.keys(media).forEach(function (type) {
         var _media$type = media[type],
             mediaQuery = _media$type.mediaQuery,
             defaultWidth = _media$type.defaultWidth;
@@ -209,7 +220,6 @@ export var ReactResponsiveConnect = function ReactResponsiveConnect(WrappedCompo
           defaultWidth: defaultWidth
         });
       });
-
       _this.state = {
         env: {}
       };

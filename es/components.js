@@ -1,5 +1,11 @@
+import _defineProperty from "@babel/runtime/helpers/defineProperty";
 import _extends from "@babel/runtime/helpers/extends";
 import _objectWithoutProperties from "@babel/runtime/helpers/objectWithoutProperties";
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
@@ -8,8 +14,7 @@ import { defaultConfig, TAG } from './default-config';
 import { ReactResponsiveConnect } from './react-responsive-connect';
 import { getMedia } from './media';
 import { getMediaMinWidthByType, getMediaMaxWidthByType, mediaQueryBuilder, isStringOrNumber, isString } from './helpers';
-
-var MediaQueryWrapper = function MediaQueryWrapper() {
+export var MediaQueryWrapper = function MediaQueryWrapper() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var values = {
     deviceWidth: 1,
@@ -41,8 +46,6 @@ var MediaQueryWrapper = function MediaQueryWrapper() {
     return isInvertMatch ? children : null;
   });
 };
-
-export { MediaQueryWrapper };
 MediaQueryWrapper.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   component: PropTypes.oneOfType([PropTypes.node, PropTypes.func, PropTypes.string]),
@@ -60,7 +63,7 @@ MediaQueryWrapper.defaultProps = {
 export var responsiveWrapper = function responsiveWrapper() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   return function (p) {
-    return MediaQueryWrapper(_extends({}, props, p));
+    return MediaQueryWrapper(_objectSpread(_objectSpread({}, props), p));
   };
 };
 
